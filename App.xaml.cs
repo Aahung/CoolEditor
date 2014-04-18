@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO.IsolatedStorage;
 using System.Resources;
 using System.Windows;
 using System.Windows.Markup;
@@ -8,11 +9,38 @@ using CoolEditor.Class;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using CoolEditor.Resources;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Phone.Marketplace;
 
 namespace CoolEditor
 {
     public partial class App : Application
     {
+        //global variables:
+        public string Mode { set; get; } // this will reset every time a file is open
+
+        private static LicenseInformation _licenseInfo = new LicenseInformation();
+        private bool _isTrial = false;
+        private void CheckLicense()
+        {
+            // When debugging, we want to simulate a trial mode experience. The following conditional allows us to set the _isTrial 
+            // property to simulate trial mode being on or off. 
+#if DEBUG
+            _isTrial = true;
+#else
+            _isTrial = _licenseInfo.IsTrial();
+#endif
+        }
+
+        public bool IsTrial
+        {
+            get
+            {
+                return _isTrial;
+            }
+        }
+
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -62,12 +90,30 @@ namespace CoolEditor
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            // deal with default global variables
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (!settings.Contains("theme"))
+            {
+                settings.Add("theme", "monokai");
+            }
+            if ((string) settings["theme"] == "")
+            {
+                settings["theme"] = "monokai";
+            }
+            if (!settings.Contains("fontsize"))
+            {
+                settings.Add("fontsize", 12);
+            }
+            settings.Save();
+            // trial
+            CheckLicense();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            CheckLicense();
         }
 
         // Code to execute when the application is deactivated (sent to background)

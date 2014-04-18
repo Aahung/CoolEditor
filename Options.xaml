@@ -38,14 +38,14 @@
     </toolkit:TransitionService.NavigationOutTransition>
 
     <phone:PhoneApplicationPage.Resources>
-        <DataTemplate x:Name="ModePickerItemTemplate">
+        <DataTemplate x:Name="ListPickerItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate x:Name="ThemePickerItemTemplate">
+        <DataTemplate x:Name="ListPickerFullModeItemTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
+                <TextBlock Text="{Binding Name}" Margin="12 0 0 0" FontSize="35"/>
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
@@ -68,12 +68,28 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <ScrollViewer Margin="0,0,0,83">
                 <StackPanel>
-                    <toolkit:ListPicker x:Name="ModePicker" SelectionMode="Single" ItemTemplate="{StaticResource ModePickerItemTemplate}" FullModeItemTemplate="{StaticResource ModePickerItemTemplate}" Header="Mode" FullModeHeader="Mode" CacheMode="BitmapCache" SelectionChanged="ModePicker_OnSelectionChanged"/>
-                    <toolkit:ListPicker x:Name="ThemePicker" SelectionMode="Single" ItemTemplate="{StaticResource ThemePickerItemTemplate}" FullModeItemTemplate="{StaticResource ThemePickerItemTemplate}" Header="Mode" FullModeHeader="Mode" CacheMode="BitmapCache" SelectionChanged="ThemePicker_OnSelectionChanged"/>
+                    <toolkit:ListPicker x:Name="ModePicker" 
+                        SelectionMode="Single" 
+                        ItemTemplate="{StaticResource ListPickerItemTemplate}" 
+                        FullModeItemTemplate="{StaticResource ListPickerFullModeItemTemplate}" 
+                        Header="Mode" 
+                        FullModeHeader="Mode" 
+                        CacheMode="BitmapCache" />
+                    <toolkit:ListPicker x:Name="ThemePicker" 
+                        SelectionMode="Single" 
+                        ItemTemplate="{StaticResource ListPickerItemTemplate}" 
+                        FullModeItemTemplate="{StaticResource ListPickerFullModeItemTemplate}" 
+                        Header="Theme" FullModeHeader="Theme" 
+                        CacheMode="BitmapCache" />
+                    <toolkit:ListPicker x:Name="FontPicker" 
+                        SelectionMode="Single" 
+                        ItemTemplate="{StaticResource ListPickerItemTemplate}" 
+                        FullModeItemTemplate="{StaticResource ListPickerFullModeItemTemplate}" 
+                        Header="Font" FullModeHeader="Font" 
+                        CacheMode="BitmapCache" />
                 </StackPanel>
             </ScrollViewer>
-            <Button Content="Save" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="225" Click="ButtonBase_OnClick"/>
-            <Button Content="Discard" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="225"/>
+            <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="225" Click="ButtonBase_OnClick"/>
         </Grid>
     </Grid>
 

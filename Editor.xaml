@@ -53,11 +53,11 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ScrollViewer>
+            <ScrollViewer Margin="0,-15,0,0">
                 <phone:WebBrowser x:Name="EditorBrowser" KeyDown="EditorBrowser_OnKeyDown" LostFocus="EditorBrowser_OnLostFocus"  Loaded="EditorBrowser_OnLoaded" LoadCompleted="EditorBrowser_OnLoadCompleted" IsScriptEnabled="True" Margin="0,0,0,-30"/>
             </ScrollViewer>
         </Grid>
-        <StackPanel Height="70" Grid.RowSpan="2" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Height="62" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Right">
         	<Button x:Name="ViewToggleButton" Content="edit" HorizontalAlignment="Right" VerticalAlignment="Top" Height="62" Margin="0,0,3,0" FontSize="16" Click="ViewToggleButton_OnClick"/>
         	<Button x:Name="TabButton" IsEnabled="False" Content="Tab" Click="ButtonBase_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Height="62" Width="75" Margin="0,0,15,0" FontSize="16" />
         </StackPanel>

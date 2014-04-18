@@ -16,6 +16,8 @@ using Microsoft.Phone.Shell;
 using CoolEditor.Resources;
 using System.IO.IsolatedStorage;
 using Microsoft.Phone.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace CoolEditor
@@ -24,6 +26,7 @@ namespace CoolEditor
     {
         private ObservableCollection<File> _source;
         private ObservableCollection<AlphaKeyGroup<File>> _dataSource;
+        private MarketplaceDetailTask _marketPlaceDetailTask = new MarketplaceDetailTask();
         // Constructor
         public MainPage()
         {
@@ -46,14 +49,51 @@ namespace CoolEditor
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
             ListFiles();
+            // for WP8 users
+            if (Environment.OSVersion.Version.Minor == 0) // WP8.0
+            {
+                Wp81.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Wp80.Visibility = Visibility.Collapsed;
+            }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedFrom(e);
+            base.OnNavigatedTo(e);
             //handle back navigation
             FileListSelector.SelectedItem = null;
             ListFiles();
+
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                //trail version
+                if ((App.Current as App).IsTrial)
+                {
+                    var trialMessageBox = new CustomMessageBox()
+                    {
+                        Caption = "Buy Cool Editor",
+                        Message = "We really hope you can buy this app to support us to make it better.",
+                        LeftButtonContent = "Buy",
+                        RightButtonContent = "Continue trial"
+                    };
+
+                    trialMessageBox.Dismissed += (s, e1) =>
+                    {
+                        if (e1.Result == CustomMessageBoxResult.LeftButton)
+                        {
+                            _marketPlaceDetailTask.Show();
+                        }
+                    };
+
+                    trialMessageBox.Show();
+                }
+            }
+#if DEBUG
+            PanoramaItemAbout.Header = "about";//specify when is debugging
+#endif
         }
 
         private async void LoadSampleFiles()
@@ -101,12 +141,6 @@ namespace CoolEditor
             no_file.Visibility = !_source.Any() ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            //NavigationService.Navigate(new Uri("/Editor.xaml", UriKind.Relative));
-        }
-
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{
@@ -125,6 +159,13 @@ namespace CoolEditor
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             // share
+            var menuItem = sender as MenuItem;
+            if (menuItem != null)
+            {
+                var file = (File)menuItem.DataContext;
+                var shareBox = new ShareBox(file.FileName);
+                shareBox.Show();
+            }
         }
 
         private async void MenuItem2_OnClick(object sender, RoutedEventArgs e)
@@ -237,7 +278,7 @@ namespace CoolEditor
             var email = new EmailComposeTask
             {
                 To = "landxh@gmail.com", 
-                Subject = "Cool Edit Feedback"
+                Subject = "Cool Editor Feedback"
             };
             email.Show();
         }

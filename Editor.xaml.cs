@@ -30,6 +30,8 @@ namespace CoolEditor
         {
             InitializeComponent();
             EditorBrowser.Visibility = Visibility.Collapsed;//hide the window
+            // we need to reset the global variable mode
+            (App.Current as App).Mode = "";
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -37,13 +39,16 @@ namespace CoolEditor
             base.OnNavigatedTo(e); 
             if (e.NavigationMode == NavigationMode.Back)
             {
-                string modeStr;
                 // handle the mode
-                if (_queryStrings.TryGetValue("mode", out modeStr))
-                {
                     // set mode
-                    EditorBrowser.InvokeScript("eval", string.Format("editor.getSession().setMode(\"{0}\")", modeStr));
-                }
+                EditorBrowser.InvokeScript("eval", string.Format("editor.getSession().setMode(\"ace/mode/{0}\"); " +
+                    "editor.setTheme('ace/theme/{1}'); document.getElementById('editor').style.fontSize='{2}px'", 
+                    (App.Current as App).Mode, IsolatedStorageSettings.ApplicationSettings["theme"], 
+                    IsolatedStorageSettings.ApplicationSettings["fontsize"]));
+                System.Threading.Thread.Sleep(200);
+                EditorBrowser.InvokeScript("eval", string.Format("resize();")); // reset the browser control's height
+                System.Threading.Thread.Sleep(200);
+                EditorBrowser.InvokeScript("eval", string.Format("resize();")); // reset the browser control's height
                 // avoid reload of code if coming back from option page
                 return;
             }
@@ -91,8 +96,9 @@ namespace CoolEditor
                 string data = await FileIOUtility.ReadFileContentsAsync(_fileName);
                 var fileExtension = _fileName.Split('.')[_fileName.Split('.').Count() - 1];
                 var escapedFileContent = HttpUtility.UrlEncode(data);
-                var modeStr = "ace/mode/";
+                var modeStr = "";
                 if (fileExtension != null)
+                {
                     switch (fileExtension.ToLower())
                     {
                         case "cu":
@@ -101,46 +107,53 @@ namespace CoolEditor
                         case "hxx":
                         case "h":
                         case "hpp":
-                            modeStr += "c_cpp";
+                            modeStr = "c_cpp";
                             break;
                         case "java":
                         case "class":
-                            modeStr += "java";
+                            modeStr = "java";
                             break;
                         case "css":
-                            modeStr += "css";
+                            modeStr = "css";
                             break;
                         case "js":
-                            modeStr += "javascript";
+                            modeStr = "javascript";
                             break;
                         case "json":
-                            modeStr += "json";
+                            modeStr = "json";
                             break;
                         case "php":
                         case "inc":
-                            modeStr += "php";
+                            modeStr = "php";
                             break;
                         default:
-                            modeStr += "plain_text";
+                            modeStr = "plain_text";
                             break;
                     }
+                }
+                else
+                {
+                    modeStr = "plain_text";
+                }
+                (App.Current as App).Mode = modeStr;
                 try
                 {
-                    EditorBrowser.InvokeScript("eval", @"var editor = ace.edit('editor');
-                        editor.setTheme('ace/theme/monokai');
+                    EditorBrowser.InvokeScript("eval", string.Format(@"editor = ace.edit('editor');
+                        editor.setTheme('ace/theme/{0}');
 	                    editor.getSession().setUseWrapMode(true);
                         editor.getSession().on('change', resize);
                         editor.getSession().selection.on('change', resize);
-                    ");
-                    var result = (string)EditorBrowser.InvokeScript("eval", string.Format("editor.setValue(unescape(\"{0}\"));", escapedFileContent).Replace("+", "%20"));	                
-                    EditorBrowser.InvokeScript("eval", string.Format("editor.getSession().setMode(\"{0}\")", modeStr));
+                        document.getElementById('editor').style.fontSize='{1}px';
+                    ", IsolatedStorageSettings.ApplicationSettings["theme"], IsolatedStorageSettings.ApplicationSettings["fontsize"]));
+                    var result = (string)EditorBrowser.InvokeScript("eval", string.Format("editor.setValue(unescape(\"{0}\"));", escapedFileContent).Replace("+", "%20"));
+                    EditorBrowser.InvokeScript("eval", string.Format("editor.getSession().setMode(\"ace/mode/{0}\")", (App.Current as App).Mode));
+                    EditorBrowser.InvokeScript("eval", "setViewOnly(true);"); 
                     EditorBrowser.Visibility = Visibility.Visible; // show the editor window
                     // toggle to view only
                     _viewOnly = true;
                     System.Threading.Thread.Sleep(1000);
                     EditorBrowser.InvokeScript("eval", "editor.selection.clearSelection()");
                     EditorBrowser.InvokeScript("eval", string.Format("resize()")); // reset the browser control's height
-                    EditorBrowser.InvokeScript("eval", "setViewOnly(true);");
                 }
                 catch (Exception ex)
                 {

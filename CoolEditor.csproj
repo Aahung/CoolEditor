@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{44288236-DF09-4856-80AD-5C79F4B4E61F}</ProjectGuid>
+    <ProjectGuid>{0E3A3BB4-16B7-4C28-8A3E-37C390DCD815}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -97,6 +97,7 @@
     <Compile Include="Class\AlphaKeyGroup.cs" />
     <Compile Include="Class\AssociationUriMapper.cs" />
     <Compile Include="Class\FileIOUtility.cs" />
+    <Compile Include="Class\ShareBox.cs" />
     <Compile Include="Class\ToastNotification.cs" />
     <Compile Include="Editor.xaml.cs">
       <DependentUpon>Editor.xaml</DependentUpon>
@@ -137,6 +138,10 @@
     <None Include="Assets\black\Thumbs.db" />
     <None Include="Assets\black_with_circle\Thumbs.db" />
     <Resource Include="Assets\Sample_Code\sample.php" />
+    <None Include="Assets\icon.psd" />
+    <None Include="Assets\panorama.psd" />
+    <None Include="Assets\promo.psd" />
+    <None Include="Assets\Splash.psd" />
     <None Include="Assets\white\Thumbs.db" />
     <None Include="Assets\white_with_circle\Thumbs.db" />
     <None Include="packages.config" />
@@ -157,6 +162,7 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\BadgeLogo.png" />
     <Content Include="Assets\black\Abort.png" />
     <Content Include="Assets\black\AC.png" />
     <Content Include="Assets\black\Add.png" />
@@ -427,11 +433,29 @@
     <Content Include="Assets\black_with_circle\Zoom-in.png" />
     <Content Include="Assets\black_with_circle\Zoom-out.png" />
     <Content Include="Assets\black_with_circle\Zoom.png" />
+    <Content Include="Assets\Coding4Fun.Toolkit.Controls.dll" />
+    <Content Include="Assets\Logo.png" />
     <Content Include="Assets\no_file.png" />
     <Resource Include="Assets\Sample_Code\sample.cpp" />
     <Resource Include="Assets\Sample_Code\sample.css" />
     <Resource Include="Assets\Sample_Code\sample.java" />
     <Resource Include="Assets\Sample_Code\sample.js" />
+    <Content Include="Assets\panorama.png" />
+    <Content Include="Assets\promo.png" />
+    <Content Include="Assets\promo_medium.png" />
+    <Content Include="Assets\promo_small.png" />
+    <Content Include="Assets\screenshot\create.png" />
+    <Content Include="Assets\screenshot\editing.png" />
+    <Content Include="Assets\screenshot\file_list.png" />
+    <Content Include="Assets\screenshot\file_list_menu.png" />
+    <Content Include="Assets\screenshot\main.png" />
+    <Content Include="Assets\screenshot\setting.png" />
+    <Content Include="Assets\screenshot\share.png" />
+    <Content Include="Assets\screenshot\view_menu.png" />
+    <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\SquareTile150x150.png" />
+    <Content Include="Assets\SquareTile71x71.png" />
+    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -441,13 +465,18 @@
     <Content Include="Assets\Tiles\FlipCycleTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Tiles\icon.png" />
     <Content Include="Assets\Tiles\IconicTileMediumLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Tiles\icon_176.png" />
     <Content Include="Assets\Tiles\icon_300.png" />
+    <Content Include="Assets\Tiles\icon_33.png" />
+    <Content Include="Assets\Tiles\icon_69.png" />
+    <Content Include="Assets\Tiles\icon_trans.png" />
     <Content Include="Assets\white\Abort.png" />
     <Content Include="Assets\white\AC.png" />
     <Content Include="Assets\white\Add.png" />
@@ -718,6 +747,7 @@
     <Content Include="Assets\white_with_circle\Zoom-in.png" />
     <Content Include="Assets\white_with_circle\Zoom-out.png" />
     <Content Include="Assets\white_with_circle\Zoom.png" />
+    <Content Include="Assets\WideLogo.png" />
     <Content Include="Html\Editor.html" />
     <Content Include="Html\src-min-noconflict\ace.js" />
     <Content Include="Html\src-min-noconflict\ext-beautify.js" />

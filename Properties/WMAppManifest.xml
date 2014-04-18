@@ -2,7 +2,7 @@
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
   <App xmlns="" ProductID="{44288236-df09-4856-80ad-5c79f4b4e61f}" Title="Cool Editor" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="CoolEditor author" Description="A WP8 Text Editor" Publisher="CoolEditor" PublisherID="{2866c055-ca7a-4c6a-9c21-e7d1f12678c1}">
-    <IconPath IsRelative="true" IsResource="false">Assets\Tiles\icon_300.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\Tiles\icon_trans.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_SENSORS" />
@@ -14,9 +14,9 @@
     <Tokens>
       <PrimaryToken TokenID="CoolEditorToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\icon_300.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\icon_trans.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\icon_300.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\icon_trans.png</BackgroundImageURI>
           <Title>Cool Editor</Title>
           <BackContent>
           </BackContent>
@@ -34,9 +34,9 @@
     <Extensions>
       <FileTypeAssociation Name="c++" TaskID="_default" NavUriFragment="fileToken=%s">
         <Logos>
-          <Logo Size="small" IsRelative="true">Assets/sdk-small-33x33.png</Logo>
-          <Logo Size="medium" IsRelative="true">Assets/sdk-medium-69x69.png</Logo>
-          <Logo Size="large" IsRelative="true">Assets/sdk-large-176x176.png</Logo>
+          <Logo Size="small" IsRelative="true">Assets/Tiles/icon_33.png</Logo>
+          <Logo Size="medium" IsRelative="true">Assets/Tiles/icon_69.png</Logo>
+          <Logo Size="large" IsRelative="true">Assets/Tiles/icon_176.png</Logo>
         </Logos>
         <SupportedFileTypes>
           <FileType ContentType="application/sdk">.cu</FileType>
@@ -49,9 +49,9 @@
       </FileTypeAssociation>
       <FileTypeAssociation Name="java" TaskID="_default" NavUriFragment="fileToken=%s">
         <Logos>
-          <Logo Size="small" IsRelative="true">Assets/sdk-small-33x33.png</Logo>
-          <Logo Size="medium" IsRelative="true">Assets/sdk-medium-69x69.png</Logo>
-          <Logo Size="large" IsRelative="true">Assets/sdk-large-176x176.png</Logo>
+          <Logo Size="small" IsRelative="true">Assets/Tiles/icon_33.png</Logo>
+          <Logo Size="medium" IsRelative="true">Assets/Tiles/icon_69.png</Logo>
+          <Logo Size="large" IsRelative="true">Assets/Tiles/icon_176.png</Logo>
         </Logos>
         <SupportedFileTypes>
           <FileType ContentType="application/sdk">.java</FileType>
@@ -60,9 +60,9 @@
       </FileTypeAssociation>
       <FileTypeAssociation Name="web" TaskID="_default" NavUriFragment="fileToken=%s">
         <Logos>
-          <Logo Size="small" IsRelative="true">Assets/sdk-small-33x33.png</Logo>
-          <Logo Size="medium" IsRelative="true">Assets/sdk-medium-69x69.png</Logo>
-          <Logo Size="large" IsRelative="true">Assets/sdk-large-176x176.png</Logo>
+          <Logo Size="small" IsRelative="true">Assets/Tiles/icon_33.png</Logo>
+          <Logo Size="medium" IsRelative="true">Assets/Tiles/icon_69.png</Logo>
+          <Logo Size="large" IsRelative="true">Assets/Tiles/icon_176.png</Logo>
         </Logos>
         <SupportedFileTypes>
           <FileType ContentType="application/sdk">.css</FileType>
@@ -72,6 +72,17 @@
           <FileType ContentType="application/sdk">.inc</FileType>
           <FileType ContentType="application/sdk">.aspx</FileType>
           <FileType ContentType="application/sdk">.asp</FileType>
+        </SupportedFileTypes>
+      </FileTypeAssociation>
+      <FileTypeAssociation Name="other" TaskID="_default" NavUriFragment="fileToken=%s">
+        <Logos>
+          <Logo Size="small" IsRelative="true">Assets/Tiles/icon_33.png</Logo>
+          <Logo Size="medium" IsRelative="true">Assets/Tiles/icon_69.png</Logo>
+          <Logo Size="large" IsRelative="true">Assets/Tiles/icon_176.png</Logo>
+        </Logos>
+        <SupportedFileTypes>
+          <FileType ContentType="application/sdk">.tex</FileType>
+          <FileType ContentType="application/sdk">.m</FileType>
         </SupportedFileTypes>
       </FileTypeAssociation>
     </Extensions>

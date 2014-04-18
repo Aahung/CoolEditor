@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\CoolEditor_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="17/4/14 12:35:02 AM">
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\obj\Debug\CoolEditor.dll" archivePath="CoolEditor.dll" lastWriteTime="17/4/14 12:34:58 AM" />
+﻿<xapCache source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\CoolEditor_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="19/4/14 1:26:55 AM">
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\obj\Debug\CoolEditor.dll" archivePath="CoolEditor.dll" lastWriteTime="19/4/14 1:26:52 AM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="13/4/14 8:57:36 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\AppBar1\cancel.png" archivePath="Assets\AppBar1\cancel.png" lastWriteTime="1/1/13 6:57:00 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\AppBar2\feature.settings.png" archivePath="Assets\AppBar2\feature.settings.png" lastWriteTime="1/1/13 6:57:00 PM" />
@@ -9,6 +9,7 @@
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\AppBar\feature.search.png" archivePath="Assets\AppBar\feature.search.png" lastWriteTime="1/1/13 6:57:00 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\AppBar\save.png" archivePath="Assets\AppBar\save.png" lastWriteTime="1/1/13 6:57:00 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\BadgeLogo.png" archivePath="Assets\BadgeLogo.png" lastWriteTime="18/4/14 10:41:34 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\black\Abort.png" archivePath="Assets\black\Abort.png" lastWriteTime="15/4/14 7:43:48 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\black\AC.png" archivePath="Assets\black\AC.png" lastWriteTime="15/4/14 7:43:48 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\black\Add.png" archivePath="Assets\black\Add.png" lastWriteTime="15/4/14 7:43:48 PM" />
@@ -279,12 +280,35 @@
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\black_with_circle\Zoom-in.png" archivePath="Assets\black_with_circle\Zoom-in.png" lastWriteTime="15/4/14 7:43:53 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\black_with_circle\Zoom-out.png" archivePath="Assets\black_with_circle\Zoom-out.png" lastWriteTime="15/4/14 7:43:53 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\black_with_circle\Zoom.png" archivePath="Assets\black_with_circle\Zoom.png" lastWriteTime="15/4/14 7:43:53 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Coding4Fun.Toolkit.Controls.dll" archivePath="Assets\Coding4Fun.Toolkit.Controls.dll" lastWriteTime="15/4/14 5:52:18 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Logo.png" archivePath="Assets\Logo.png" lastWriteTime="18/4/14 11:42:19 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\no_file.png" archivePath="Assets\no_file.png" lastWriteTime="15/4/14 7:20:03 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\panorama.png" archivePath="Assets\panorama.png" lastWriteTime="17/4/14 7:49:45 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\promo.png" archivePath="Assets\promo.png" lastWriteTime="18/4/14 11:24:51 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\promo_medium.png" archivePath="Assets\promo_medium.png" lastWriteTime="18/4/14 11:25:52 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\promo_small.png" archivePath="Assets\promo_small.png" lastWriteTime="18/4/14 11:27:40 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\create.png" archivePath="Assets\screenshot\create.png" lastWriteTime="17/4/14 12:37:01 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\editing.png" archivePath="Assets\screenshot\editing.png" lastWriteTime="18/4/14 10:50:08 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\file_list.png" archivePath="Assets\screenshot\file_list.png" lastWriteTime="18/4/14 10:48:53 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\file_list_menu.png" archivePath="Assets\screenshot\file_list_menu.png" lastWriteTime="18/4/14 10:50:46 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\main.png" archivePath="Assets\screenshot\main.png" lastWriteTime="19/4/14 12:57:44 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\setting.png" archivePath="Assets\screenshot\setting.png" lastWriteTime="16/4/14 11:50:21 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\share.png" archivePath="Assets\screenshot\share.png" lastWriteTime="18/4/14 10:51:00 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\screenshot\view_menu.png" archivePath="Assets\screenshot\view_menu.png" lastWriteTime="18/4/14 10:49:24 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\SplashScreen.png" archivePath="Assets\SplashScreen.png" lastWriteTime="18/4/14 11:43:38 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\SquareTile150x150.png" archivePath="Assets\SquareTile150x150.png" lastWriteTime="18/4/14 11:41:44 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\SquareTile71x71.png" archivePath="Assets\SquareTile71x71.png" lastWriteTime="18/4/14 11:41:57 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\StoreLogo.png" archivePath="Assets\StoreLogo.png" lastWriteTime="19/4/14 12:24:57 AM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="13/4/14 8:57:36 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="13/4/14 8:57:36 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\icon.png" archivePath="Assets\Tiles\icon.png" lastWriteTime="18/4/14 11:10:44 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="13/4/14 8:57:36 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\icon_176.png" archivePath="Assets\Tiles\icon_176.png" lastWriteTime="18/4/14 11:11:25 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\icon_300.png" archivePath="Assets\Tiles\icon_300.png" lastWriteTime="18/4/14 11:28:28 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\icon_33.png" archivePath="Assets\Tiles\icon_33.png" lastWriteTime="18/4/14 11:12:32 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\icon_69.png" archivePath="Assets\Tiles\icon_69.png" lastWriteTime="18/4/14 11:12:03 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\white\Abort.png" archivePath="Assets\white\Abort.png" lastWriteTime="15/4/14 7:43:53 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\white\AC.png" archivePath="Assets\white\AC.png" lastWriteTime="15/4/14 7:43:53 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\white\Add.png" archivePath="Assets\white\Add.png" lastWriteTime="15/4/14 7:43:53 PM" />
@@ -555,7 +579,8 @@
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\white_with_circle\Zoom-in.png" archivePath="Assets\white_with_circle\Zoom-in.png" lastWriteTime="15/4/14 7:43:58 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\white_with_circle\Zoom-out.png" archivePath="Assets\white_with_circle\Zoom-out.png" lastWriteTime="15/4/14 7:43:58 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\white_with_circle\Zoom.png" archivePath="Assets\white_with_circle\Zoom.png" lastWriteTime="15/4/14 7:43:58 PM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\Editor.html" archivePath="Html\Editor.html" lastWriteTime="16/4/14 11:53:31 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\WideLogo.png" archivePath="Assets\WideLogo.png" lastWriteTime="18/4/14 10:41:35 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\Editor.html" archivePath="Html\Editor.html" lastWriteTime="18/4/14 8:07:58 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\src-min-noconflict\ace.js" archivePath="Html\src-min-noconflict\ace.js" lastWriteTime="14/4/14 4:47:54 AM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\src-min-noconflict\ext-beautify.js" archivePath="Html\src-min-noconflict\ext-beautify.js" lastWriteTime="14/4/14 4:47:54 AM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\src-min-noconflict\ext-chromevox.js" archivePath="Html\src-min-noconflict\ext-chromevox.js" lastWriteTime="14/4/14 4:47:54 AM" />
@@ -839,16 +864,22 @@
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\src-min-noconflict\worker-lua.js" archivePath="Html\src-min-noconflict\worker-lua.js" lastWriteTime="14/4/14 4:48:00 AM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\src-min-noconflict\worker-php.js" archivePath="Html\src-min-noconflict\worker-php.js" lastWriteTime="14/4/14 4:48:00 AM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Html\src-min-noconflict\worker-xquery.js" archivePath="Html\src-min-noconflict\worker-xquery.js" lastWriteTime="14/4/14 4:48:00 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\README_FIRST.txt" archivePath="README_FIRST.txt" lastWriteTime="14/4/14 6:25:16 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Add.png" archivePath="Toolkit.Content\ApplicationBar.Add.png" lastWriteTime="14/4/14 6:25:16 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Cancel.png" archivePath="Toolkit.Content\ApplicationBar.Cancel.png" lastWriteTime="14/4/14 6:25:16 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Check.png" archivePath="Toolkit.Content\ApplicationBar.Check.png" lastWriteTime="14/4/14 6:25:16 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Delete.png" archivePath="Toolkit.Content\ApplicationBar.Delete.png" lastWriteTime="14/4/14 6:25:16 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Select.png" archivePath="Toolkit.Content\ApplicationBar.Select.png" lastWriteTime="14/4/14 6:25:16 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="15/4/14 5:56:22 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\README_FIRST.txt" archivePath="README_FIRST.txt" lastWriteTime="19/4/14 12:57:47 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Add.png" archivePath="Toolkit.Content\ApplicationBar.Add.png" lastWriteTime="19/4/14 12:57:47 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Cancel.png" archivePath="Toolkit.Content\ApplicationBar.Cancel.png" lastWriteTime="19/4/14 12:57:47 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Check.png" archivePath="Toolkit.Content\ApplicationBar.Check.png" lastWriteTime="19/4/14 12:57:47 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Delete.png" archivePath="Toolkit.Content\ApplicationBar.Delete.png" lastWriteTime="19/4/14 12:57:47 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Toolkit.Content\ApplicationBar.Select.png" archivePath="Toolkit.Content\ApplicationBar.Select.png" lastWriteTime="19/4/14 12:57:47 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="19/4/14 1:06:35 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="13/4/14 8:57:36 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="13/4/14 8:57:36 PM" />
   <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Coding4Fun.Toolkit.Controls.dll" archivePath="Coding4Fun.Toolkit.Controls.dll" lastWriteTime="15/4/14 5:52:18 PM" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Libraries\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="1/1/13 6:57:00 PM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="14/4/14 6:25:16 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\icon_300.png" archivePath="Assets\Tiles\icon_300.png" lastWriteTime="16/4/14 9:07:26 AM" />
-  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="16/4/14 9:40:28 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="19/4/14 12:58:38 AM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Assets\Tiles\icon_trans.png" archivePath="Assets\Tiles\icon_trans.png" lastWriteTime="18/4/14 11:12:47 PM" />
+  <file source="C:\Users\Xinhong\documents\visual studio 2013\Projects\CoolEditor\CoolEditor\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="19/4/14 1:10:07 AM" />
 </xapCache>

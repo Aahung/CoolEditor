@@ -13,6 +13,9 @@ maximum-scale=1, minimum-scale=1" />
 		        right: 0;
                 min-height: 100%;
 		    }
+            #viewonlymask {
+                min-height: 95%;
+            }
 		</style>
     </head>
     <body>
@@ -20,19 +23,19 @@ maximum-scale=1, minimum-scale=1" />
         	
         </div>
         <script type="text/javascript">
+            var viewOnly, // define the view only property of editor
+            editor; // editor 
             function resize() {
                 var height = document.getElementsByClassName('ace_scrollbar-inner')[0].style.height;
                 document.getElementById('editor').style.height = parseInt(height) + 30 + 'px';
-                var editor = ace.edit("editor");
                 editor.resize();
+                setViewOnly(viewOnly);
             }
             function setNicePosition() {
-
                 document.body.scrollTop = position;
             }
-	        
-
             function setViewOnly(bool) {
+                viewOnly = bool;
                 try {
                     editor.setReadOnly(bool);
                     if (bool) {
