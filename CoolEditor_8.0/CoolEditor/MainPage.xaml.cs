@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -113,11 +116,11 @@ namespace CoolEditor
                 var reader = new System.IO.StreamReader(strm.Stream);
                 string data = reader.ReadToEnd();
                 await FileIOUtility.WriteDataToFileAsync(sample, data);
-                ListFiles();
+                await ListFiles();
             }
         }
 
-        private async void ListFiles()
+        public async Task ListFiles()
         {
             var storageFiles = IsolatedStorageFile.GetUserStoreForApplication();
             var storageFolder = ApplicationData.Current.LocalFolder;
@@ -139,6 +142,11 @@ namespace CoolEditor
                 (File s) => s.FileName, true));
             FileListSelector.ItemsSource = _dataSource;
             no_file.Visibility = !_source.Any() ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public void OpenFile(string fileName)
+        {
+            NavigationService.Navigate(new Uri(string.Format("/Editor.xaml?name={0}", fileName), UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar
@@ -194,7 +202,7 @@ namespace CoolEditor
                     //    group.Remove(target);
                     //    FileListSelector.ItemsSource = _dataSource;
                     //}
-                    ListFiles();
+                    await ListFiles();
                     ToastNotification.ShowSimple(file.FileName + " deleted.");
                     //ListFiles();
                 }
@@ -206,6 +214,32 @@ namespace CoolEditor
             //var file = (File)FileListSelector.SelectedItem;
         }
 
+        private void MenuItem3_OnClick(object sender, RoutedEventArgs e)
+        {
+            //rename
+            var menuItem = sender as MenuItem;
+            if (menuItem != null)
+            {
+                var file = (File)menuItem.DataContext;
+                
+                var prompt = new InputPrompt {Title = "Rename file", Message = "Specify a new file name:"};
+                prompt.Show();
+
+                prompt.Completed += async (s1, e1) =>
+                {
+                    if (await FileIOUtility.RenameFileAsync(file.FileName, e1.Result))
+                    {
+                        ToastNotification.ShowSimple(file.FileName + " renamed to " + e1.Result);
+                        await ListFiles();
+                    }
+                    else
+                    {
+                        ToastNotification.ShowSimple("Fail, please check if the name is used.");
+                    }
+                };
+            }
+        }
+
         private void FileListSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (FileListSelector.SelectedItem == null)
@@ -213,7 +247,7 @@ namespace CoolEditor
                 return;
             }
             var file = (File) FileListSelector.SelectedItem;
-            NavigationService.Navigate(new Uri(string.Format("/Editor.xaml?name={0}", file.FileName), UriKind.Relative));
+            OpenFile(file.FileName);
         }
 
         private async void ApplicationBarIconButton_OnClick(object sender, EventArgs e)
@@ -234,7 +268,7 @@ namespace CoolEditor
                     await FileIOUtility.DeleteFileAsync(fileName);
                 }
                 ToastNotification.ShowSimple("All files deleted.");
-                ListFiles();
+                await ListFiles();
             }
             catch (Exception ex)
             {
@@ -287,6 +321,40 @@ namespace CoolEditor
         {
 
         }
+
+        private async void UIElement_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            //download file by url
+            if (e.Key != Key.Enter) return;
+            //download file
+            var phoneTextBox = sender as PhoneTextBox;
+            if (phoneTextBox == null) return;
+            var url = phoneTextBox.Text;
+            var targetUri = new UriBuilder(url).Uri;
+            try
+            {
+                var client = new WebClient();
+                client.DownloadStringCompleted += async (s1, e1) =>
+                {
+                    var headers = ((WebClient) s1).ResponseHeaders;
+                    string fileName = headers.AllKeys.Contains("Content-Disposition") ?  // if has the header, use the header's file name
+                        headers["Content-Disposition"] : url.Split('/')[url.Split('/').Count() - 1];
+                    var content = e1.Result;
+                    fileName = await FileIOUtility.CreateFileAndWriteDataAsync(fileName, content); // write to local
+                    phoneTextBox.Text = "";
+                    FileListSelector.Focus();
+                    SimpleProgressIndicator.Set(false);
+                };
+                SimpleProgressIndicator.Set(true);
+                client.DownloadStringAsync(targetUri);
+            } 
+            catch(Exception ex)
+            {
+                MessageBox.Show("Something wrong.");
+            }
+
+        }
+
     }
     public class File
     {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2014/deployment" AppPlatformVersion="8.1">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{44288236-df09-4856-80ad-5c79f4b4e61f}" Title="Cool Editor" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="CoolEditor author" Description="A WP8 Text Editor" Publisher="CoolEditor" PublisherID="{2866c055-ca7a-4c6a-9c21-e7d1f12678c1}">
+  <App xmlns="" ProductID="{44288236-df09-4856-80ad-5c79f4b4e61f}" Title="Cool Editor" RuntimeType="Silverlight" Version="1.0.0.1" Genre="apps.normal" Author="CoolEditor author" Description="A WP8 Text Editor" Publisher="CoolEditor" PublisherID="{2866c055-ca7a-4c6a-9c21-e7d1f12678c1}">
     <IconPath IsRelative="true" IsResource="false">Assets\Tiles\icon_trans.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -18,16 +18,21 @@
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\icon_trans.png</BackgroundImageURI>
           <Title>Cool Editor</Title>
-          <BackContent></BackContent>
-          <BackBackgroundImageURI></BackBackgroundImageURI>
-          <BackTitle></BackTitle>
-          <DeviceLockImageURI></DeviceLockImageURI>
-          <HasLarge></HasLarge>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
+          <HasLarge>
+          </HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
     <Extensions>
-      <FileTypeAssociation Name="c++" TaskID="_default" NavUriFragment="fileToken=%s">
+      <FileTypeAssociation Name="c like" TaskID="_default" NavUriFragment="fileToken=%s">
         <Logos>
           <Logo Size="small" IsRelative="true">Assets/Tiles/icon_33.png</Logo>
           <Logo Size="medium" IsRelative="true">Assets/Tiles/icon_69.png</Logo>
@@ -40,6 +45,7 @@
           <FileType ContentType="application/sdk">.hpp</FileType>
           <FileType ContentType="application/sdk">.hxx</FileType>
           <FileType ContentType="application/sdk">.h</FileType>
+          <FileType ContentType="application/sdk">.cs</FileType>
         </SupportedFileTypes>
       </FileTypeAssociation>
       <FileTypeAssociation Name="java" TaskID="_default" NavUriFragment="fileToken=%s">
@@ -78,6 +84,8 @@
         <SupportedFileTypes>
           <FileType ContentType="application/sdk">.tex</FileType>
           <FileType ContentType="application/sdk">.m</FileType>
+          <FileType ContentType="application/sdk">.sh</FileType>
+          <FileType ContentType="application/sdk">.tex</FileType>
         </SupportedFileTypes>
       </FileTypeAssociation>
     </Extensions>

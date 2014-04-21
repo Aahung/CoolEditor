@@ -46,6 +46,10 @@
                             Header="Share..."
                             Click="MenuItem_OnClick"/>
                         <toolkit:MenuItem 
+                            Name="Rename"  
+                            Header="Rename..." 
+                            Click="MenuItem3_OnClick" />
+                        <toolkit:MenuItem 
                             Name="Delete"  
                             Header="Delete" 
                             Click="MenuItem2_OnClick" />
@@ -166,14 +170,17 @@
                 </phone:PanoramaItem.RenderTransform>
                 <Grid>
                     <ScrollViewer Margin="0,-36,0,0">
-                        <phone:LongListSelector x:Name="FileListSelector" JumpListStyle="{StaticResource FileJumpListStyle}"
-                    		Background="Transparent"
-                    		GroupHeaderTemplate="{StaticResource FileGroupHeaderTemplate}"
-                    		ItemTemplate="{StaticResource FileItemTemplate}"
-                    		LayoutMode="List"
-                    		IsGroupingEnabled="true"
-                    		HideEmptyGroups ="true"
-                    		SelectionChanged="FileListSelector_OnSelectionChanged" Width="420"/>
+                        <StackPanel>
+                            <toolkit:PhoneTextBox Hint="Input url to download file" KeyDown="UIElement_OnKeyDown"/>
+                    		<phone:LongListSelector x:Name="FileListSelector" JumpListStyle="{StaticResource FileJumpListStyle}"
+                    			Background="Transparent"
+                    			GroupHeaderTemplate="{StaticResource FileGroupHeaderTemplate}"
+                    			ItemTemplate="{StaticResource FileItemTemplate}"
+                    			LayoutMode="List"
+                    			IsGroupingEnabled="true"
+                    			HideEmptyGroups ="true"
+                    			SelectionChanged="FileListSelector_OnSelectionChanged" Margin="0"/>
+                    	</StackPanel>
                     </ScrollViewer>
                     <ScrollViewer x:Name="no_file" Margin="0,-36,0,0" Visibility="Collapsed">
                         <StackPanel Height="457" Width="420">

@@ -1,53 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-
-  <Identity Name="6f8c1968-0a5a-40a9-80d3-2383c94d2fa8"
-            Publisher="CN=Xinhong"
-            Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="44288236-df09-4856-80ad-5c79f4b4e61f" PhonePublisherId="2866c055-ca7a-4c6a-9c21-e7d1f12678c1"/>
-
+  <Identity Name="14702ParseCool.CoolEditor" Publisher="CN=88A31072-92A6-48F2-A2FF-57BCBF0FD305" Version="1.0.1.0" />
+  <mp:PhoneIdentity PhoneProductId="44288236-df09-4856-80ad-5c79f4b4e61f" PhonePublisherId="2866c055-ca7a-4c6a-9c21-e7d1f12678c1" />
   <Properties>
     <DisplayName>CoolEditor</DisplayName>
-    <PublisherDisplayName>Xinhong</PublisherDisplayName>
+    <PublisherDisplayName>ParseCool</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.3.1</OSMinVersion>
     <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
   </Prerequisites>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="x44288236ydf09y4856y80ady5c79f4b4e61fx"
-        Executable="AGHost.exe"
-        EntryPoint="MainPage.xaml">
-      <m3:VisualElements
-          DisplayName="CoolEditor"
-          Square150x150Logo="Assets\SquareTile150x150.png"
-          Square44x44Logo="Assets\Logo.png"
-          Description="CoolEditor"
-          ForegroundText="light"
-          BackgroundColor="#464646">
-        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png"/>
+    <Application Id="x44288236ydf09y4856y80ady5c79f4b4e61fx" Executable="AGHost.exe" EntryPoint="MainPage.xaml">
+      <m3:VisualElements DisplayName="CoolEditor" Square150x150Logo="Assets\SquareTile150x150.png" Square44x44Logo="Assets\Logo.png" Description="CoolEditor" ForegroundText="light" BackgroundColor="#464646">
+        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png">
+        </m3:DefaultTile>
         <m3:SplashScreen Image="Assets\Splashscreen.png" />
-        <m3:ApplicationView MinWidth="width320"/> <!--Used in XAML Designer. DO NOT REMOVE-->
+        <m3:ApplicationView MinWidth="width320" />
+        <!--Used in XAML Designer. DO NOT REMOVE-->
       </m3:VisualElements>
-      <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
-          <BackgroundTasks>
-          <Task Type="systemEvent" />
-          </BackgroundTasks>
-        </Extension>
-      </Extensions>
     </Application>
   </Applications>
-  <Capabilities>
-  </Capabilities>
   <Extensions>
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>

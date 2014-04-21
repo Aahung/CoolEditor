@@ -868,6 +868,9 @@
     <File>Html\src-min-noconflict\worker-php.js</File>
     <File>Html\src-min-noconflict\worker-xquery.js</File>
     <File>README_FIRST.txt</File>
+    <File>SplashScreenImage.screen-720p.jpg</File>
+    <File>SplashScreenImage.screen-WVGA.jpg</File>
+    <File>SplashScreenImage.screen-WXGA.jpg</File>
     <File>Toolkit.Content\ApplicationBar.Add.png</File>
     <File>Toolkit.Content\ApplicationBar.Cancel.png</File>
     <File>Toolkit.Content\ApplicationBar.Check.png</File>

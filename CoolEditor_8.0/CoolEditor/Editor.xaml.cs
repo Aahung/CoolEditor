@@ -101,6 +101,14 @@ namespace CoolEditor
                 {
                     switch (fileExtension.ToLower())
                     {
+                        case "html":
+                        case "htm":
+                            modeStr = "html";
+                            break;
+                        case "py":
+                            modeStr = "python";
+                            break;
+                        case "c":
                         case "cu":
                         case "cpp":
                         case "cxx":
@@ -125,6 +133,15 @@ namespace CoolEditor
                         case "php":
                         case "inc":
                             modeStr = "php";
+                            break;
+                        case "cs":
+                            modeStr = "csharp";
+                            break;
+                        case "tex":
+                            modeStr = "tex";
+                            break;
+                        case "xml":
+                            modeStr = "xml";
                             break;
                         default:
                             modeStr = "plain_text";
