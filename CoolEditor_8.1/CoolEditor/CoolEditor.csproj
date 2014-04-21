@@ -461,7 +461,6 @@
     <Content Include="Assets\screenshot\editing.png" />
     <Content Include="Assets\screenshot\file_list.png" />
     <Content Include="Assets\screenshot\file_list_menu.png" />
-    <Content Include="Assets\screenshot\main.png" />
     <Content Include="Assets\screenshot\setting.png" />
     <Content Include="Assets\screenshot\share.png" />
     <Content Include="Assets\screenshot\view_menu.png" />

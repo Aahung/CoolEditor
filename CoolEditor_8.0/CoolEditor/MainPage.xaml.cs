@@ -339,6 +339,11 @@ namespace CoolEditor
                     var headers = ((WebClient) s1).ResponseHeaders;
                     string fileName = headers.AllKeys.Contains("Content-Disposition") ?  // if has the header, use the header's file name
                         headers["Content-Disposition"] : url.Split('/')[url.Split('/').Count() - 1];
+                    if (fileName.Contains("filename="))
+                        fileName = fileName.Split(new string[] {"filename="}, StringSplitOptions.None)[1];
+                    fileName = fileName.Replace("\\", ""); // remove slash
+                    fileName = fileName.Replace("'", ""); // remove '
+                    fileName = fileName.Replace("\"", ""); // remove "
                     var content = e1.Result;
                     fileName = await FileIOUtility.CreateFileAndWriteDataAsync(fileName, content); // write to local
                     phoneTextBox.Text = "";

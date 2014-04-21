@@ -367,11 +367,3 @@ C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1
 C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\MDILProjectFiles.xml
 C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\XapCacheFile.xml
 C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\Bin\Release\CoolEditor_Release_AnyCPU_8.1.xap
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\layout.resfiles
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\layout.resfiles.intermediate
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\Resources.resfiles
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\Resources.resfiles.intermediate
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\pri.resfiles
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\pri.resfiles.intermediate
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\priconfig.xml
-C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.1\CoolEditor\obj\Release\Microsoft.Phone.Controls.Toolkit\priconfig.xml.intermediate
