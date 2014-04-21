@@ -222,7 +222,7 @@ namespace CoolEditor
             {
                 var file = (File)menuItem.DataContext;
                 
-                var prompt = new InputPrompt {Title = "Rename file", Message = "Specify a new file name:"};
+                var prompt = new InputPrompt {Title = "Rename file", Message = "Specify a new file name:", Value = file.FileName};
                 prompt.Show();
 
                 prompt.Completed += async (s1, e1) =>
@@ -342,10 +342,10 @@ namespace CoolEditor
                     var content = e1.Result;
                     fileName = await FileIOUtility.CreateFileAndWriteDataAsync(fileName, content); // write to local
                     phoneTextBox.Text = "";
-                    FileListSelector.Focus();
                     SimpleProgressIndicator.Set(false);
                 };
                 SimpleProgressIndicator.Set(true);
+                FileListSelector.Focus();
                 client.DownloadStringAsync(targetUri);
             } 
             catch(Exception ex)
