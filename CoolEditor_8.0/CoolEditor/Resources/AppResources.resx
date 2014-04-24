@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -133,5 +133,200 @@
   </data>
   <data name="AppBarMenuItemText" xml:space="preserve">
     <value>Menu Item</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Cool Editor</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Buy" xml:space="preserve">
+    <value>Buy</value>
+  </data>
+  <data name="Buy_caption" xml:space="preserve">
+    <value>Buy Cool Editor</value>
+  </data>
+  <data name="Buy_message" xml:space="preserve">
+    <value>We really hope you can buy this app to support us to make it better.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Can_not_open" xml:space="preserve">
+    <value>Sorry this file cannot be opened. :-(. Would you mind send this file to me at landxh@gmail.com?</value>
+  </data>
+  <data name="Clear_all" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="Continue_trial" xml:space="preserve">
+    <value>Continue trial</value>
+  </data>
+  <data name="Copy_all" xml:space="preserve">
+    <value>Copy all</value>
+  </data>
+  <data name="Copy_success" xml:space="preserve">
+    <value>Copied to clipboard.</value>
+  </data>
+  <data name="Copy_to_clipboard" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Create_caption" xml:space="preserve">
+    <value>Create a new file</value>
+  </data>
+  <data name="Create_message" xml:space="preserve">
+    <value>Input the file name (egg. abc.xml)</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Thanks to Ace Project, which is the core of this app.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete_all_fail" xml:space="preserve">
+    <value>Fail to delete all files.</value>
+  </data>
+  <data name="Delete_all_message" xml:space="preserve">
+    <value>Do you want to delete all files?!</value>
+  </data>
+  <data name="Delete_all_success" xml:space="preserve">
+    <value>All files deleted.</value>
+  </data>
+  <data name="Delete_comfirm" xml:space="preserve">
+    <value>Do you want to delete</value>
+  </data>
+  <data name="Delete_fail" xml:space="preserve">
+    <value>Deletion failed.</value>
+  </data>
+  <data name="Delete_success" xml:space="preserve">
+    <value>deleted successfully.</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Cool Editor is a text editor enabling you to view and edit code files on your Windows Phone and share it easily.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Fail" xml:space="preserve">
+    <value>Fail :-(</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="Feedback_mail_title" xml:space="preserve">
+    <value>Cool Editor Feedback</value>
+  </data>
+  <data name="Font_size" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="Input_url_to_download" xml:space="preserve">
+    <value>Input URL to download file</value>
+  </data>
+  <data name="Invalid_url" xml:space="preserve">
+    <value>Invalid URL or it does not exist.</value>
+  </data>
+  <data name="Last_modified" xml:space="preserve">
+    <value>Last Modified</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="No_file" xml:space="preserve">
+    <value>Oh no, no file here...</value>
+  </data>
+  <data name="No_file_coming" xml:space="preserve">
+    <value>No file is coming, do not play joke with me. :-(</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Proposal" xml:space="preserve">
+    <value>I am currently working on it, if you have any suggestion on it, send me Email and tell me about it. I hope we can make it better.</value>
+  </data>
+  <data name="Quit_message" xml:space="preserve">
+    <value>Do you want to quit?</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Rename_caption" xml:space="preserve">
+    <value>Rename file</value>
+  </data>
+  <data name="Rename_dot" xml:space="preserve">
+    <value>Rename...</value>
+  </data>
+  <data name="Rename_fail" xml:space="preserve">
+    <value>Fail, please check if the name is used.</value>
+  </data>
+  <data name="Rename_message" xml:space="preserve">
+    <value>Input new file name</value>
+  </data>
+  <data name="Rename_to" xml:space="preserve">
+    <value>renamed to</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Save_success" xml:space="preserve">
+    <value>Saved!</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search_message" xml:space="preserve">
+    <value>Input the keywords</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Share_by_cooleditor" xml:space="preserve">
+    <value>Share by Cool Editor</value>
+  </data>
+  <data name="Share_caption" xml:space="preserve">
+    <value>Share this file via:</value>
+  </data>
+  <data name="Share_dot" xml:space="preserve">
+    <value>Share...</value>
+  </data>
+  <data name="Share_message" xml:space="preserve">
+    <value>There are several methods for you to share code files.</value>
+  </data>
+  <data name="Something_wrong" xml:space="preserve">
+    <value>Something wrong, :-(</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="WP80Bug" xml:space="preserve">
+    <value>If you are using WP8.0 There are bugs that you may found during editing code, the Enter key is sometimes not responding, backspace deletes two 2 chars at one press. I am currently working on it.</value>
+  </data>
+  <data name="WP81Bug" xml:space="preserve">
+    <value>If you are using WP8.1 There is a bug that you may found during editing code, the Enter key is sometimes not responding. You can press other keys and then Enter key, I am currently working on it.</value>
   </data>
 </root>

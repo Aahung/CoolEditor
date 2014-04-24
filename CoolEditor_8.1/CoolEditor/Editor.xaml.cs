@@ -12,6 +12,7 @@ using System.Windows.Resources;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using CoolEditor.Class;
+using CoolEditor.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Windows.Phone.Storage.SharedAccess;
@@ -32,6 +33,55 @@ namespace CoolEditor
             EditorBrowser.Visibility = Visibility.Collapsed;//hide the window
             // we need to reset the global variable mode
             (App.Current as App).Mode = "";
+            BuildLocalizedApplicationBar();
+        }
+
+        private void BuildLocalizedApplicationBar()
+        {
+            // Set the page's ApplicationBar to a new instance of ApplicationBar.
+            ApplicationBar = new ApplicationBar();
+
+            // Create a new button and set the text value to the localized string from AppResources.
+            var appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/AppBar/save.png", UriKind.Relative)) { Text = AppResources.Save };
+            appBarButton.Click += ApplicationBarIconButton3_OnClick;
+            ApplicationBar.Buttons.Add(appBarButton);
+
+            //search button
+            appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/AppBar/feature.search.png", UriKind.Relative)) { Text = AppResources.Search };
+            appBarButton.Click += ApplicationBarIconButton2_OnClick;
+            ApplicationBar.Buttons.Add(appBarButton);
+
+            //copy button
+            appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/white_with_circle/Clipboard.png", UriKind.Relative)) { Text = AppResources.Copy_all };
+            appBarButton.Click += ApplicationBarIconButton4_OnClick;
+            ApplicationBar.Buttons.Add(appBarButton);
+
+            //option button
+            appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/AppBar2/feature.settings.png", UriKind.Relative)) { Text = AppResources.Options };
+            appBarButton.Click += ApplicationBarIconButton_OnClick;
+            ApplicationBar.Buttons.Add(appBarButton);
+
+            // Create a new menu item with the localized string from AppResources.
+            //undo
+            var appBarMenuItem =
+                new ApplicationBarMenuItem(AppResources.Undo);
+            appBarMenuItem.Click += ApplicationBarMenuItem_OnClick;
+            ApplicationBar.MenuItems.Add(appBarMenuItem);
+            //redo
+            appBarMenuItem =
+                new ApplicationBarMenuItem(AppResources.Redo);
+            appBarMenuItem.Click += ApplicationBarMenuItem2_OnClick;
+            ApplicationBar.MenuItems.Add(appBarMenuItem);
+
+            ApplicationBar.Mode = ApplicationBarMode.Minimized; //minimize
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -55,7 +105,7 @@ namespace CoolEditor
             _queryStrings = this.NavigationContext.QueryString;
             if (!_queryStrings.Any())
             {
-                MessageBox.Show("No file is coming, do not play joke with me. :-(");
+                MessageBox.Show(AppResources.No_file_coming);
             }
             EditorBrowser.Navigate(new Uri("./Html/Editor.html", UriKind.Relative));
         }
@@ -175,12 +225,12 @@ namespace CoolEditor
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    MessageBox.Show("Sorry this file cannot be opened. :-(. Would you mind send this file to me at landxh@gmail.com?");
+                    MessageBox.Show(AppResources.Can_not_open);
                 }
             }
             else
             {
-                MessageBox.Show("No file is coming, do not play joke with me. :-(");
+                MessageBox.Show(AppResources.No_file_coming);
             }
         }
 
@@ -208,10 +258,10 @@ namespace CoolEditor
             var textbox = new TextBox();
             var searchBox = new CustomMessageBox()
             {
-                Caption = "Search",
-                Message = "Enter keywords",
-                LeftButtonContent = "search",
-                RightButtonContent = "cancel",
+                Caption = AppResources.Search,
+                Message = AppResources.Search_message,
+                LeftButtonContent = AppResources.Search,
+                RightButtonContent = AppResources.Cancel,
                 Content = textbox
             };
 
@@ -236,9 +286,9 @@ namespace CoolEditor
             //help with find next and find previous
             var searchBox = new CustomMessageBox()
             {
-                Caption = "Search",
-                LeftButtonContent = "Previous",
-                RightButtonContent = "Next",
+                Caption = AppResources.Search,
+                LeftButtonContent = AppResources.Previous,
+                RightButtonContent = AppResources.Next,
             };
 
             searchBox.Dismissing += (s1, e1) =>
@@ -264,7 +314,7 @@ namespace CoolEditor
         {
             //Do your work here
             MessageBoxResult result =
-                MessageBox.Show("Do you want to quit?", "Warning",
+                MessageBox.Show(AppResources.Quit_message, AppResources.Warning,
                     MessageBoxButton.OKCancel);
 
             if (result != MessageBoxResult.OK)
@@ -289,12 +339,12 @@ namespace CoolEditor
             {
                 var fileContent = (string) EditorBrowser.InvokeScript("eval", "editor.getValue()");
                 await FileIOUtility.WriteDataToFileAsync(_fileName, fileContent);
-                ToastNotification.ShowSimple("Saved!");
+                ToastNotification.ShowSimple(AppResources.Save_success);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                ToastNotification.ShowSimple("Not saved");
+                ToastNotification.ShowSimple(AppResources.Fail);
             }
         }
 
@@ -305,12 +355,12 @@ namespace CoolEditor
             {
                 var fileContent = (string)EditorBrowser.InvokeScript("eval", "editor.getValue()");
                 Clipboard.SetText(fileContent);
-                ToastNotification.ShowSimple("Copied to clipboard!");
+                ToastNotification.ShowSimple(AppResources.Copy_success);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                ToastNotification.ShowSimple("Failed :-(");
+                ToastNotification.ShowSimple(AppResources.Fail);
             }
         }
 
@@ -319,13 +369,13 @@ namespace CoolEditor
             if (_viewOnly)
             {
                 var result = (string)EditorBrowser.InvokeScript("eval", "setViewOnly(false);");
-                ((Button) sender).Content = "view";
+                ((Button) sender).Content = AppResources.View;
                 TabButton.IsEnabled = true;
             }
             else
             {
                 var result = (string)EditorBrowser.InvokeScript("eval", "setViewOnly(true);");
-                ((Button)sender).Content = "edit";
+                ((Button)sender).Content = AppResources.Edit;
                 TabButton.IsEnabled = false;
             }
             _viewOnly = !_viewOnly;

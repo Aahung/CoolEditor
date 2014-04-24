@@ -43,15 +43,15 @@
                     <toolkit:ContextMenu Name="ContextMenu" IsZoomEnabled="True" IsFadeEnabled="True" >
                         <toolkit:MenuItem 
                             Name="Share"
-                            Header="Share..."
+                            Header="{Binding Path=LocalizedResources.Share_dot, Source={StaticResource LocalizedStrings}}"
                             Click="MenuItem_OnClick"/>
                         <toolkit:MenuItem 
                             Name="Rename"  
-                            Header="Rename..." 
+                            Header="{Binding Path=LocalizedResources.Rename_dot, Source={StaticResource LocalizedStrings}}" 
                             Click="MenuItem3_OnClick" />
                         <toolkit:MenuItem 
                             Name="Delete"  
-                            Header="Delete" 
+                            Header="{Binding Path=LocalizedResources.Delete, Source={StaticResource LocalizedStrings}}" 
                             Click="MenuItem2_OnClick" />
                     </toolkit:ContextMenu>
                 </toolkit:ContextMenuService.ContextMenu>
@@ -59,7 +59,7 @@
                            Margin="12,0,0,0" HorizontalAlignment="Left" Foreground="{StaticResource PhoneForegroundBrush}"  
                            Text="{Binding FileName, Mode=TwoWay}" />
                 <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" Margin="12,0,0,10"
-                           Text="{Binding LastWriteTime, StringFormat='Last Modified: {0}', Mode=TwoWay}"></TextBlock>
+                           Text="{Binding LastWriteTimeStr, Mode=TwoWay}"></TextBlock>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="FileGroupHeaderTemplate">
@@ -118,47 +118,61 @@
         <!--TitlePanel contains the name of the application and page title-->
 
         <!--ContentPanel - place additional content here-->
-        <phone:Panorama Title="Cool Editor" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
-        	<phone:PanoramaItem Name="PanoramaItemAbout" CacheMode="{x:Null}" Header="About">
+        <phone:Panorama Title="{Binding Path=LocalizedResources.AppName, Source={StaticResource LocalizedStrings}}" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
+            <phone:PanoramaItem Name="PanoramaItemAbout" CacheMode="{x:Null}" Header="{Binding Path=LocalizedResources.About, Source={StaticResource LocalizedStrings}}">
         		<phone:PanoramaItem.RenderTransform>
         			<TranslateTransform/>
         		</phone:PanoramaItem.RenderTransform>
         		<Grid>
                     <ScrollViewer Name="Wp81">
-                        <RichTextBox Margin="0" Height="369" Width="420" ContentChanged="RichTextBox_ContentChanged">
+                        <RichTextBox Margin="0" Width="420" ContentChanged="RichTextBox_ContentChanged">
                             <Paragraph>
-                                <Run Text="Cool Editor is a text editor enabling you to view and edit code files on your Windows Phone and share it easily."/>
+                                <Run Text="{Binding Path=LocalizedResources.Description, Source={StaticResource LocalizedStrings}}"/>
                             </Paragraph>
                             <Paragraph>
                                 <Run/>
                             </Paragraph>
                             <Paragraph>
-                                <Run Text="I am currently working on it, if you have any suggestion on it, send me Email and tell me about it. I hope we can make it better."/>
+                                <Run Text="{Binding Path=LocalizedResources.Proposal, Source={StaticResource LocalizedStrings}}"/>
                             </Paragraph>
                             <Paragraph>
                                 <Run/>
                             </Paragraph>
                             <Paragraph>
-                                <Run Text="If you are using WP8.1 There is a bug that you may found during editing code, the Enter key is sometimes not responding. You can press other keys and then Enter key, I am currently working on it."/>
+                                <Run Text="{Binding Path=LocalizedResources.WP81Bug, Source={StaticResource LocalizedStrings}}"/>
+                            </Paragraph>
+                            <Paragraph>
+                                <Run/>
+                            </Paragraph>
+                            <Paragraph>
+                                <Run Text="{Binding Path=LocalizedResources.Credit, Source={StaticResource LocalizedStrings}}"/>
+                                <Hyperlink NavigateUri="http://ace.c9.io/" TargetName="_blank">http://ace.c9.io/</Hyperlink>
                             </Paragraph>
                         </RichTextBox>
                     </ScrollViewer>
                     <ScrollViewer Name="Wp80">
-                        <RichTextBox Margin="0" Height="369" Width="420" ContentChanged="RichTextBox_ContentChanged">
+                        <RichTextBox Margin="0" Width="420" ContentChanged="RichTextBox_ContentChanged">
                             <Paragraph>
-                                <Run Text="Cool Editor is a text editor enabling you to view and edit code files on your Windows Phone and share it easily."/>
+                                <Run Text="{Binding Path=LocalizedResources.Description, Source={StaticResource LocalizedStrings}}"/>
                             </Paragraph>
                             <Paragraph>
                                 <Run/>
                             </Paragraph>
                             <Paragraph>
-                                <Run Text="I am currently working on it, if you have any suggestion on it, send me Email and tell me about it. I hope we can make it better."/>
+                                <Run Text="{Binding Path=LocalizedResources.Proposal, Source={StaticResource LocalizedStrings}}"/>
                             </Paragraph>
                             <Paragraph>
                                 <Run/>
                             </Paragraph>
                             <Paragraph>
-                                <Run Text="If you are using WP8.0 There are bugs that you may found during editing code, the Enter key is sometimes not responding, backspace deletes two 2 chars at one press. I am currently working on it."/>
+                                <Run Text="{Binding Path=LocalizedResources.WP80Bug, Source={StaticResource LocalizedStrings}}"/>
+                            </Paragraph>
+                            <Paragraph>
+                                <Run/>
+                            </Paragraph>
+                            <Paragraph>
+                                <Run Text="{Binding Path=LocalizedResources.Credit, Source={StaticResource LocalizedStrings}}"/>
+                                <Hyperlink NavigateUri="http://ace.c9.io/" TargetName="_blank">http://ace.c9.io/</Hyperlink>
                             </Paragraph>
                         </RichTextBox>
                     </ScrollViewer>
@@ -171,7 +185,7 @@
                 <Grid>
                     <ScrollViewer Margin="0,-36,0,0">
                         <StackPanel>
-                            <toolkit:PhoneTextBox Hint="Input url to download file" KeyDown="UIElement_OnKeyDown"/>
+                            <toolkit:PhoneTextBox Hint="{Binding Path=LocalizedResources.Input_url_to_download, Source={StaticResource LocalizedStrings}}" KeyDown="UIElement_OnKeyDown"/>
                     		<phone:LongListSelector x:Name="FileListSelector" JumpListStyle="{StaticResource FileJumpListStyle}"
                     			Background="Transparent"
                     			GroupHeaderTemplate="{StaticResource FileGroupHeaderTemplate}"
@@ -180,12 +194,10 @@
                     			IsGroupingEnabled="true"
                     			HideEmptyGroups ="true"
                     			SelectionChanged="FileListSelector_OnSelectionChanged" Margin="0"/>
-                    	</StackPanel>
-                    </ScrollViewer>
-                    <ScrollViewer x:Name="no_file" Margin="0,-36,0,0" Visibility="Collapsed">
-                        <StackPanel Height="457" Width="420">
-                            <TextBlock TextWrapping="Wrap" Text=":-(" FontSize="346.667" FontFamily="Arial" Margin="0"/>
-                            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Oh.. No files here" VerticalAlignment="Bottom"/>
+                            <StackPanel x:Name="NoFile" Height="457" Width="420">
+                                <TextBlock TextWrapping="Wrap" Text=":-(" FontSize="346.667" FontFamily="Arial" Margin="0"/>
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.No_file, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Bottom"/>
+                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -202,13 +214,4 @@
             Before shipping remove this XAML and the image itself.-->
         <!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
     </Grid>
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" Mode="Minimized" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/add.png" Text="Create" Click="ApplicationBarIconButton1_OnClick"/>
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/delete.png" Text="Clear All" Click="ApplicationBarIconButton_OnClick"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Feedback" Click="ApplicationBarMenuItem_OnClick"/>
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

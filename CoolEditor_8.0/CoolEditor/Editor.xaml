@@ -58,7 +58,7 @@
             </ScrollViewer>
         </Grid>
         <StackPanel Height="62" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Right">
-        	<Button x:Name="ViewToggleButton" Content="edit" HorizontalAlignment="Right" VerticalAlignment="Top" Height="62" Margin="0,0,3,0" FontSize="16" Click="ViewToggleButton_OnClick"/>
+            <Button x:Name="ViewToggleButton" Content="{Binding Path=LocalizedResources.Edit, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Right" VerticalAlignment="Top" Height="62" Margin="0,0,3,0" FontSize="16" Click="ViewToggleButton_OnClick"/>
         	<Button x:Name="TabButton" IsEnabled="False" Content="Tab" Click="ButtonBase_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Height="62" Width="75" Margin="0,0,15,0" FontSize="16" />
         </StackPanel>
     </Grid>

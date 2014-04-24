@@ -49,8 +49,7 @@ namespace CoolEditor
                 setting.Save();
             }
 
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
+            BuildLocalizedApplicationBar();
             ListFiles();
             // for WP8 users
             if (Environment.OSVersion.Version.Minor == 0) // WP8.0
@@ -61,6 +60,34 @@ namespace CoolEditor
             {
                 Wp80.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void BuildLocalizedApplicationBar()
+        {
+            // Set the page's ApplicationBar to a new instance of ApplicationBar.
+            ApplicationBar = new ApplicationBar();
+
+            // Create a new button and set the text value to the localized string from AppResources.
+            var appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/AppBar/add.png", UriKind.Relative)) {Text = AppResources.Create};
+            appBarButton.Click += ApplicationBarIconButton1_OnClick;
+            ApplicationBar.Buttons.Add(appBarButton);
+
+            //delete all button
+            appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/AppBar/delete.png", UriKind.Relative)) { Text = AppResources.Clear_all };
+            appBarButton.Click += ApplicationBarIconButton_OnClick;
+            ApplicationBar.Buttons.Add(appBarButton);
+
+            // Create a new menu item with the localized string from AppResources.
+            var appBarMenuItem =
+                new ApplicationBarMenuItem(AppResources.Feedback);
+            appBarMenuItem.Click += ApplicationBarMenuItem_OnClick;
+            ApplicationBar.MenuItems.Add(appBarMenuItem);
+
+            ApplicationBar.Mode = ApplicationBarMode.Minimized; //minimize
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -77,10 +104,10 @@ namespace CoolEditor
                 {
                     var trialMessageBox = new CustomMessageBox()
                     {
-                        Caption = "Buy Cool Editor",
-                        Message = "We really hope you can buy this app to support us to make it better.",
-                        LeftButtonContent = "Buy",
-                        RightButtonContent = "Continue trial"
+                        Caption = AppResources.Buy_caption,
+                        Message = AppResources.Buy_message,
+                        LeftButtonContent = AppResources.Buy,
+                        RightButtonContent = AppResources.Continue_trial
                     };
 
                     trialMessageBox.Dismissed += (s, e1) =>
@@ -132,6 +159,7 @@ namespace CoolEditor
                 if (storageFile != null)
                 {
                     if (storageFile.Name == "__ApplicationSettings") continue;
+                    if (storageFile.Name.Contains(".tmp")) continue;
                     DateTime dt = storageFiles.GetLastWriteTime(storageFile.Path).LocalDateTime;
                     _source.Add(new File(storageFile.Name, storageFile.Path, dt));
                 }
@@ -141,7 +169,8 @@ namespace CoolEditor
                 System.Threading.Thread.CurrentThread.CurrentUICulture,
                 (File s) => s.FileName, true));
             FileListSelector.ItemsSource = _dataSource;
-            no_file.Visibility = !_source.Any() ? Visibility.Visible : Visibility.Collapsed;
+            NoFile.Visibility = !_source.Any() ? Visibility.Visible : Visibility.Collapsed;
+            FileListSelector.Visibility = _source.Any() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void OpenFile(string fileName)
@@ -149,21 +178,6 @@ namespace CoolEditor
             NavigationService.Navigate(new Uri(string.Format("/Editor.xaml?name={0}", fileName), UriKind.Relative));
         }
 
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
-
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
-
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             // share
@@ -184,7 +198,7 @@ namespace CoolEditor
             {
                 var file = (File)menuItem.DataContext;
                 MessageBoxResult result =
-                MessageBox.Show("Do you want to delete " + file.FileName + "?", "Warning",
+                MessageBox.Show(AppResources.Delete_comfirm + " " + file.FileName + "?", AppResources.Warning,
                     MessageBoxButton.OKCancel);
 
                 if (result != MessageBoxResult.OK)
@@ -203,12 +217,12 @@ namespace CoolEditor
                     //    FileListSelector.ItemsSource = _dataSource;
                     //}
                     await ListFiles();
-                    ToastNotification.ShowSimple(file.FileName + " deleted.");
+                    ToastNotification.ShowSimple(file.FileName + " " + AppResources.Delete_success);
                     //ListFiles();
                 }
                 else
                 {
-                    ToastNotification.ShowSimple("Fail.");
+                    ToastNotification.ShowSimple(AppResources.Delete_fail);
                 }
             }
             //var file = (File)FileListSelector.SelectedItem;
@@ -222,19 +236,20 @@ namespace CoolEditor
             {
                 var file = (File)menuItem.DataContext;
                 
-                var prompt = new InputPrompt {Title = "Rename file", Message = "Specify a new file name:", Value = file.FileName};
+                var prompt = new InputPrompt {Title = AppResources.Rename_caption, Message = AppResources.Rename_message, Value = file.FileName};
                 prompt.Show();
 
                 prompt.Completed += async (s1, e1) =>
                 {
+                    if (e1.PopUpResult != PopUpResult.Ok) return;
                     if (await FileIOUtility.RenameFileAsync(file.FileName, e1.Result))
                     {
-                        ToastNotification.ShowSimple(file.FileName + " renamed to " + e1.Result);
+                        ToastNotification.ShowSimple(file.FileName + " " + AppResources.Rename_to + " " + e1.Result);
                         await ListFiles();
                     }
                     else
                     {
-                        ToastNotification.ShowSimple("Fail, please check if the name is used.");
+                        ToastNotification.ShowSimple(AppResources.Rename_fail);
                     }
                 };
             }
@@ -254,7 +269,7 @@ namespace CoolEditor
         {
             MessageBoxResult result =
                 MessageBox.Show(
-                "Do you want to delete all files?!", "Warning", MessageBoxButton.OKCancel);
+                AppResources.Delete_all_message, AppResources.Warning, MessageBoxButton.OKCancel);
 
             if (result != MessageBoxResult.OK)
             {
@@ -267,12 +282,12 @@ namespace CoolEditor
                 {
                     await FileIOUtility.DeleteFileAsync(fileName);
                 }
-                ToastNotification.ShowSimple("All files deleted.");
+                ToastNotification.ShowSimple(AppResources.Delete_all_success);
                 await ListFiles();
             }
             catch (Exception ex)
             {
-                ToastNotification.ShowSimple("Fail to delete.");
+                ToastNotification.ShowSimple(AppResources.Delete_all_fail);
             }
             
         }
@@ -283,10 +298,10 @@ namespace CoolEditor
             var textbox = new TextBox();
             var newFileBox = new CustomMessageBox()
             {
-                Caption = "Create a New File",
-                Message = "Enter file name",
-                LeftButtonContent = "create",
-                RightButtonContent = "cancel",
+                Caption = AppResources.Create_caption,
+                Message = AppResources.Create_message,
+                LeftButtonContent = AppResources.Create,
+                RightButtonContent = AppResources.Cancel,
                 Content = textbox
             };
 
@@ -312,7 +327,7 @@ namespace CoolEditor
             var email = new EmailComposeTask
             {
                 To = "landxh@gmail.com", 
-                Subject = "Cool Editor Feedback"
+                Subject = AppResources.Feedback_mail_title
             };
             email.Show();
         }
@@ -330,13 +345,19 @@ namespace CoolEditor
             var phoneTextBox = sender as PhoneTextBox;
             if (phoneTextBox == null) return;
             var url = phoneTextBox.Text;
-            var targetUri = new UriBuilder(url).Uri;
             try
             {
+                var targetUri = new UriBuilder(url).Uri;
                 var client = new WebClient();
                 client.DownloadStringCompleted += async (s1, e1) =>
                 {
                     var headers = ((WebClient) s1).ResponseHeaders;
+                    if (headers == null)
+                    {
+                        SimpleProgressIndicator.Set(false);
+                        MessageBox.Show(AppResources.Invalid_url);
+                        return;
+                    }
                     string fileName = headers.AllKeys.Contains("Content-Disposition") ?  // if has the header, use the header's file name
                         headers["Content-Disposition"] : url.Split('/')[url.Split('/').Count() - 1];
                     if (fileName.Contains("filename="))
@@ -345,7 +366,17 @@ namespace CoolEditor
                     fileName = fileName.Replace("'", ""); // remove '
                     fileName = fileName.Replace("\"", ""); // remove "
                     var content = e1.Result;
-                    fileName = await FileIOUtility.CreateFileAndWriteDataAsync(fileName, content); // write to local
+                    try
+                    {
+                        fileName = await FileIOUtility.CreateFileAndWriteDataAsync(fileName, content); // write to local
+                    }
+                    catch (Exception)
+                    {
+                        phoneTextBox.Text = "";
+                        SimpleProgressIndicator.Set(false);
+                        MessageBox.Show(AppResources.Something_wrong);
+                        return;
+                    }
                     phoneTextBox.Text = "";
                     SimpleProgressIndicator.Set(false);
                 };
@@ -355,7 +386,9 @@ namespace CoolEditor
             } 
             catch(Exception ex)
             {
-                MessageBox.Show("Something wrong.");
+                phoneTextBox.Text = "";
+                SimpleProgressIndicator.Set(false);
+                MessageBox.Show(AppResources.Invalid_url);
             }
 
         }
@@ -378,6 +411,11 @@ namespace CoolEditor
         {
             get;
             set;
+        }
+
+        public string LastWriteTimeStr
+        {
+            get { return string.Format("{0}: {1}", AppResources.Last_modified, LastWriteTime); }
         }
 
         public File(string filename, string filepath, DateTime lastwritetime)

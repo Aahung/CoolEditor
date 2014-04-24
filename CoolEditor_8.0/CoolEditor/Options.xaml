@@ -60,8 +60,8 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Cool Editor" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Options" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.AppName, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.Options, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -72,24 +72,26 @@
                         SelectionMode="Single" 
                         ItemTemplate="{StaticResource ListPickerItemTemplate}" 
                         FullModeItemTemplate="{StaticResource ListPickerFullModeItemTemplate}" 
-                        Header="Mode" 
-                        FullModeHeader="Mode" 
+                        Header="{Binding Path=LocalizedResources.Mode, Source={StaticResource LocalizedStrings}}" 
+                        FullModeHeader="{Binding Path=LocalizedResources.Mode, Source={StaticResource LocalizedStrings}}" 
                         CacheMode="BitmapCache" />
                     <toolkit:ListPicker x:Name="ThemePicker" 
                         SelectionMode="Single" 
                         ItemTemplate="{StaticResource ListPickerItemTemplate}" 
                         FullModeItemTemplate="{StaticResource ListPickerFullModeItemTemplate}" 
-                        Header="Theme" FullModeHeader="Theme" 
+                        Header="{Binding Path=LocalizedResources.Theme, Source={StaticResource LocalizedStrings}}" 
+                        FullModeHeader="{Binding Path=LocalizedResources.Theme, Source={StaticResource LocalizedStrings}}" 
                         CacheMode="BitmapCache" />
                     <toolkit:ListPicker x:Name="FontPicker" 
                         SelectionMode="Single" 
                         ItemTemplate="{StaticResource ListPickerItemTemplate}" 
                         FullModeItemTemplate="{StaticResource ListPickerFullModeItemTemplate}" 
-                        Header="Font" FullModeHeader="Font" 
+                        Header="{Binding Path=LocalizedResources.Font_size, Source={StaticResource LocalizedStrings}}" 
+                        FullModeHeader="{Binding Path=LocalizedResources.Font_size, Source={StaticResource LocalizedStrings}}" 
                         CacheMode="BitmapCache" />
                 </StackPanel>
             </ScrollViewer>
-            <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="225" Click="ButtonBase_OnClick"/>
+            <Button Content="{Binding Path=LocalizedResources.Back, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="225" Click="ButtonBase_OnClick"/>
         </Grid>
     </Grid>
 
