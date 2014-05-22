@@ -329,4 +329,25 @@
   <data name="WP81Bug" xml:space="preserve">
     <value>如果你在使用WP8.1，在編輯代碼的時候可能會遇到回車鍵失靈的情況，請嘗試按其他的按鍵然後再次按回車鍵。我會努力修復。</value>
   </data>
+  <data name="upload_dropbox" xml:space="preserve">
+    <value>上傳至Dropbox</value>
+  </data>
+  <data name="Last_sync" xml:space="preserve">
+    <value>上次同步</value>
+  </data>
+  <data name="Network_error" xml:space="preserve">
+    <value>網絡錯誤，請稍後重試。</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>同步</value>
+  </data>
+  <data name="No_change" xml:space="preserve">
+    <value>並未做出任何修改。</value>
+  </data>
+  <data name="Click_to_login" xml:space="preserve">
+    <value>輕拍此處登陸</value>
+  </data>
+  <data name="Log_off" xml:space="preserve">
+    <value>註銷</value>
+  </data>
 </root>

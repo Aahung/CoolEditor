@@ -329,4 +329,25 @@
   <data name="WP81Bug" xml:space="preserve">
     <value>If you are using WP8.1 There is a bug that you may found during editing code, the Enter key is sometimes not responding. You can press other keys and then Enter key, I am currently working on it.</value>
   </data>
+  <data name="upload_dropbox" xml:space="preserve">
+    <value>Upload to Dropbox</value>
+  </data>
+  <data name="Last_sync" xml:space="preserve">
+    <value>Last sync</value>
+  </data>
+  <data name="Network_error" xml:space="preserve">
+    <value>Network Error, Please try again later.</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="No_change" xml:space="preserve">
+    <value>No change detected.</value>
+  </data>
+  <data name="Click_to_login" xml:space="preserve">
+    <value>Click to log in</value>
+  </data>
+  <data name="Log_off" xml:space="preserve">
+    <value>Log off</value>
+  </data>
 </root>

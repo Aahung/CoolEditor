@@ -169,6 +169,15 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click to log in.
+        /// </summary>
+        public static string Click_to_login {
+            get {
+                return ResourceManager.GetString("Click_to_login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue trial.
         /// </summary>
         public static string Continue_trial {
@@ -394,6 +403,24 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last sync.
+        /// </summary>
+        public static string Last_sync {
+            get {
+                return ResourceManager.GetString("Last_sync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log off.
+        /// </summary>
+        public static string Log_off {
+            get {
+                return ResourceManager.GetString("Log_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mode.
         /// </summary>
         public static string Mode {
@@ -403,11 +430,29 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Network Error, Please try again later..
+        /// </summary>
+        public static string Network_error {
+            get {
+                return ResourceManager.GetString("Network_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string Next {
             get {
                 return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No change detected..
+        /// </summary>
+        public static string No_change {
+            get {
+                return ResourceManager.GetString("No_change", resourceCulture);
             }
         }
         
@@ -637,6 +682,15 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sync.
+        /// </summary>
+        public static string Sync {
+            get {
+                return ResourceManager.GetString("Sync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string Theme {
@@ -651,6 +705,15 @@ namespace CoolEditor.Resources {
         public static string Undo {
             get {
                 return ResourceManager.GetString("Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload to Dropbox.
+        /// </summary>
+        public static string upload_dropbox {
+            get {
+                return ResourceManager.GetString("upload_dropbox", resourceCulture);
             }
         }
         

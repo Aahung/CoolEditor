@@ -102,7 +102,9 @@
     <Compile Include="Assets\TiltEffect.cs" />
     <Compile Include="Class\AlphaKeyGroup.cs" />
     <Compile Include="Class\AssociationUriMapper.cs" />
+    <Compile Include="Class\Authentication.cs" />
     <Compile Include="Class\FileIOUtility.cs" />
+    <Compile Include="Class\LocalDatabase.cs" />
     <Compile Include="Class\ShareBox.cs" />
     <Compile Include="Class\SimpleProgressIndicator.cs" />
     <Compile Include="Class\ToastNotification.cs" />
@@ -112,6 +114,9 @@
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineFileSelect.xaml.cs">
+      <DependentUpon>OnlineFileSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
@@ -133,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OnlineFileSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,6 +180,7 @@
     <Content Include="Assets\AppBar\edit.png" />
     <Content Include="Assets\AppBar\feature.search.png" />
     <Content Include="Assets\AppBar\save.png" />
+    <Content Include="Assets\AppBar\sync.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -446,6 +456,8 @@
     <Content Include="Assets\black_with_circle\Zoom-out.png" />
     <Content Include="Assets\black_with_circle\Zoom.png" />
     <Content Include="Assets\Coding4Fun.Toolkit.Controls.dll" />
+    <Content Include="Assets\images\dropbox-logos_dropbox-glyph-blue.png" />
+    <Content Include="Assets\images\dropbox-logos_dropbox-logotype-blue.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\no_file.png" />
     <Resource Include="Assets\Sample_Code\sample.cpp" />
@@ -1066,9 +1078,25 @@
     <Reference Include="Coding4Fun.Toolkit.Controls">
       <HintPath>Assets\Coding4Fun.Toolkit.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="DropNetRT, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Release\DropNetRT.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1084,4 +1112,9 @@
   </Target>
   -->
   <ProjectExtensions />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
 </Project>

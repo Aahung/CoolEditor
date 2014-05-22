@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="14702ParseCool.CoolEditor" Publisher="CN=88A31072-92A6-48F2-A2FF-57BCBF0FD305" Version="1.0.1.1" />
+  <Identity Name="14702ParseCool.CoolEditor" Publisher="CN=88A31072-92A6-48F2-A2FF-57BCBF0FD305" Version="1.0.2.1" />
   <mp:PhoneIdentity PhoneProductId="44288236-df09-4856-80ad-5c79f4b4e61f" PhonePublisherId="2866c055-ca7a-4c6a-9c21-e7d1f12678c1" />
   <Properties>
     <DisplayName>CoolEditor</DisplayName>
