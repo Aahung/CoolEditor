@@ -350,4 +350,7 @@
   <data name="Log_off" xml:space="preserve">
     <value>Log off</value>
   </data>
+  <data name="would_you_like_error_report" xml:space="preserve">
+    <value>Sorry, a problem occurred the last time you ran Cool Editor. Would you like to let Cool Editor send an email to report it? :-)</value>
+  </data>
 </root>

@@ -736,6 +736,15 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, a problem occurred the last time you ran Cool Editor. Would you like to let Cool Editor send an email to report it? :-).
+        /// </summary>
+        public static string would_you_like_error_report {
+            get {
+                return ResourceManager.GetString("would_you_like_error_report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If you are using WP8.0 There are bugs that you may found during editing code, the Enter key is sometimes not responding, backspace deletes two 2 chars at one press. I am currently working on it..
         /// </summary>
         public static string WP80Bug {

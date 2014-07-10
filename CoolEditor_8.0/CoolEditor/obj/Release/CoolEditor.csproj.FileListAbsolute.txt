@@ -157,3 +157,13 @@ C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0
 C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\obj\Release\zh-CN\CoolEditor.resources.dll
 C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\obj\Release\zh-Hans\CoolEditor.resources.dll
 C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\obj\Release\zh-Hant\CoolEditor.resources.dll
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\obj\Release\OnlineFileSelect.g.cs
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\CoolEditor.dll.config
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\Newtonsoft.Json.dll
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\System.Net.Http.dll
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\System.Net.Http.Extensions.dll
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\System.Net.Http.Primitives.dll
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\Newtonsoft.Json.xml
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\System.Net.Http.xml
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\System.Net.Http.Extensions.xml
+C:\Users\Xinhong\Documents\Visual Studio 2013\Projects\CoolEditor\CoolEditor_8.0\CoolEditor\Bin\Release\System.Net.Http.Primitives.xml

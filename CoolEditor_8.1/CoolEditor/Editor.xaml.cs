@@ -222,7 +222,8 @@ namespace CoolEditor
                         editor.setTheme('ace/theme/{0}');
 	                    editor.getSession().setUseWrapMode(true);
                         editor.getSession().on('change', resize);
-                        editor.getSession().selection.on('change', resize);
+                        window.onscroll = updateCursor;
+                        editor.selection.moveCursorToScreen(0, 0);
                         document.getElementById('editor').style.fontSize='{1}px';
                     ", IsolatedStorageSettings.ApplicationSettings["theme"], IsolatedStorageSettings.ApplicationSettings["fontsize"]));
                     var result = (string)EditorBrowser.InvokeScript("eval", string.Format("editor.setValue(unescape(\"{0}\"));", escapedFileContent).Replace("+", "%20"));
@@ -232,7 +233,8 @@ namespace CoolEditor
                     // toggle to view only
                     _viewOnly = true;
                     System.Threading.Thread.Sleep(1000);
-                    EditorBrowser.InvokeScript("eval", "editor.selection.clearSelection()");
+                    EditorBrowser.InvokeScript("eval", "editor.selection.clearSelection();");
+
                     EditorBrowser.InvokeScript("eval", string.Format("resize()")); // reset the browser control's height
                 }
                 catch (Exception ex)

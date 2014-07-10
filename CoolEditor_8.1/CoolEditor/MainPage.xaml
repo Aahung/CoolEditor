@@ -133,7 +133,7 @@
 		<!--TitlePanel contains the name of the application and page title-->
 
 		<!--ContentPanel - place additional content here-->
-		<phone:Panorama Title="{Binding LocalizedResources.AppName, Source={StaticResource LocalizedStrings}}" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
+		<phone:Panorama Name="Panorama" Title="{Binding LocalizedResources.AppName, Source={StaticResource LocalizedStrings}}" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
 			<phone:PanoramaItem x:Name="PanoramaItemAbout" CacheMode="{x:Null}" Header="{Binding LocalizedResources.About, Source={StaticResource LocalizedStrings}}">
 				<phone:PanoramaItem.RenderTransform>
 					<TranslateTransform/>
@@ -234,6 +234,12 @@
                             <Controls:ImageTile HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="{x:Null}" Tap="Dropbox_OnTap">
 								<Image Source="/Assets/images/dropbox-logos_dropbox-logotype-blue.png" Stretch="Fill" HorizontalAlignment="Center"/>
 							</Controls:ImageTile>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Opacity="0.4">
+                            	<Run FontSize="32" Text="+FTP account "/>
+                            	<Run/>
+                            	<LineBreak/>
+                            	<Run Text="(working on, comming soon)"/>
+                            </TextBlock>
 						</StackPanel>
 					</ScrollViewer>
 				</Grid>

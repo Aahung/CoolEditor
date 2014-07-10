@@ -350,4 +350,7 @@
   <data name="Log_off" xml:space="preserve">
     <value>註銷</value>
   </data>
+  <data name="would_you_like_error_report" xml:space="preserve">
+    <value>很抱歉，上次運行的時候好像出了錯誤，介意讓程序自動發封郵件告訴我嗎？</value>
+  </data>
 </root>

@@ -350,4 +350,7 @@
   <data name="Log_off" xml:space="preserve">
     <value>注销</value>
   </data>
+  <data name="would_you_like_error_report" xml:space="preserve">
+    <value>很抱歉，上次运行的时候好像出了错误，介意让程序自动发封邮件告诉我吗？</value>
+  </data>
 </root>

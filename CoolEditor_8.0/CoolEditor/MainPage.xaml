@@ -1,19 +1,87 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="CoolEditor.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Controls="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+    x:Class="CoolEditor.MainPage"
+    mc:Ignorable="d"
     toolkit:TiltEffect.IsTiltEnabled="True"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
+
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="FileItemTemplate">
+        	<StackPanel VerticalAlignment="Top" Margin="0,0,0,10" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
+        		<toolkit:ContextMenuService.ContextMenu>
+        			<toolkit:ContextMenu x:Name="ContextMenu" IsZoomEnabled="True" IsFadeEnabled="True" >
+        				<toolkit:MenuItem 
+        					x:Name="Share"
+        					Header="{Binding LocalizedResources.Share_dot, Source={StaticResource LocalizedStrings}}"
+        					Click="MenuItem_OnClick"/>
+        				<toolkit:MenuItem 
+        					x:Name="Rename"  
+        					Header="{Binding LocalizedResources.Rename_dot, Source={StaticResource LocalizedStrings}}" 
+        					Click="MenuItem3_OnClick" />
+        				<toolkit:MenuItem 
+        					x:Name="Delete"  
+        					Header="{Binding LocalizedResources.Delete, Source={StaticResource LocalizedStrings}}" 
+        					Click="MenuItem2_OnClick" />
+        			</toolkit:ContextMenu>
+        		</toolkit:ContextMenuService.ContextMenu>
+        		<TextBlock FontSize="30" x:Name="FileName" TextWrapping="NoWrap"  
+        			Margin="12,0,0,0" HorizontalAlignment="Left" Foreground="{StaticResource PhoneForegroundBrush}"  
+        			Text="{Binding FileName, Mode=TwoWay}" />
+                <StackPanel Margin="12,0,0,-5" Visibility="{Binding HasOnlineProvider}" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
+                    <Image Source="/Assets/images/dropbox-logos_dropbox-glyph-blue.png" Width="32"></Image>
+                    <TextBlock FontSize="20" Foreground="{StaticResource PhoneSubtleBrush}" Margin="0,0,0,0"
+        			Text="{Binding OnlinePath, Mode=TwoWay}"/>
+                </StackPanel>
+        		<TextBlock Foreground="{StaticResource PhoneSubtleBrush}" Margin="12,0,0,0"
+        			Text="{Binding LastModifiedTimeStr, Mode=TwoWay}"/>
+                <TextBlock Visibility="{Binding HasOnlineProvider}"  Foreground="{StaticResource PhoneSubtleBrush}" Margin="12,0,0,0"
+        			Text="{Binding LastSyncTimeStr, Mode=TwoWay}"/>
+        	</StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="FileGroupHeaderTemplate">
+        	<Border Background="Transparent" Padding="5">
+        		<Border Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="2" Width="62" 
+        			Height="62" Margin="0,0,18,0" HorizontalAlignment="Left">
+        			<TextBlock Text="{Binding Key, Mode=TwoWay}" Foreground="{StaticResource PhoneForegroundBrush}" FontSize="48" Padding="6" 
+        				FontFamily="{StaticResource PhoneFontFamilySemiLight}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        		</Border>
+        	</Border>
+        </DataTemplate>
+        <phone:JumpListItemBackgroundConverter x:Key="BackgroundConverter"/>
+        <phone:JumpListItemForegroundConverter x:Key="ForegroundConverter"/>
+        <Style x:Key="FileJumpListStyle" TargetType="phone:LongListSelector">
+        	<Setter Property="GridCellSize"  Value="113,113"/>
+        	<Setter Property="LayoutMode" Value="Grid" />
+        	<Setter Property="ItemTemplate">
+        		<Setter.Value>
+        			<DataTemplate>
+        				<Border Background="{Binding Converter={StaticResource BackgroundConverter}}" Width="113" Height="113" Margin="6" >
+        					<TextBlock Text="{Binding Key}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="48" Padding="6" 
+        						Foreground="{Binding Converter={StaticResource ForegroundConverter}}" VerticalAlignment="Center"/>
+        				</Border>
+        			</DataTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+    
+	<phone:PhoneApplicationPage.FontFamily>
+		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+	</phone:PhoneApplicationPage.FontFamily>
+	<phone:PhoneApplicationPage.FontSize>
+		<StaticResource ResourceKey="PhoneFontSizeNormal"/>
+	</phone:PhoneApplicationPage.FontSize>
+	<phone:PhoneApplicationPage.Foreground>
+		<StaticResource ResourceKey="PhoneForegroundBrush"/>
+	</phone:PhoneApplicationPage.Foreground>
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -36,67 +104,14 @@
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
 
-    <phone:PhoneApplicationPage.Resources>
-        <DataTemplate x:Key="FileItemTemplate">
-            <StackPanel VerticalAlignment="Top" >
-                <toolkit:ContextMenuService.ContextMenu>
-                    <toolkit:ContextMenu Name="ContextMenu" IsZoomEnabled="True" IsFadeEnabled="True" >
-                        <toolkit:MenuItem 
-                            Name="Share"
-                            Header="{Binding Path=LocalizedResources.Share_dot, Source={StaticResource LocalizedStrings}}"
-                            Click="MenuItem_OnClick"/>
-                        <toolkit:MenuItem 
-                            Name="Rename"  
-                            Header="{Binding Path=LocalizedResources.Rename_dot, Source={StaticResource LocalizedStrings}}" 
-                            Click="MenuItem3_OnClick" />
-                        <toolkit:MenuItem 
-                            Name="Delete"  
-                            Header="{Binding Path=LocalizedResources.Delete, Source={StaticResource LocalizedStrings}}" 
-                            Click="MenuItem2_OnClick" />
-                    </toolkit:ContextMenu>
-                </toolkit:ContextMenuService.ContextMenu>
-                <TextBlock FontSize="30" x:Name="FileName" TextWrapping="NoWrap"  
-                           Margin="12,0,0,0" HorizontalAlignment="Left" Foreground="{StaticResource PhoneForegroundBrush}"  
-                           Text="{Binding FileName, Mode=TwoWay}" />
-                <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" Margin="12,0,0,10"
-                           Text="{Binding LastWriteTimeStr, Mode=TwoWay}"></TextBlock>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="FileGroupHeaderTemplate">
-            <Border Background="Transparent" Padding="5">
-                <Border Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="2" Width="62" 
-         Height="62" Margin="0,0,18,0" HorizontalAlignment="Left">
-                    <TextBlock Text="{Binding Key, Mode=TwoWay}" Foreground="{StaticResource PhoneForegroundBrush}" FontSize="48" Padding="6" 
-            FontFamily="{StaticResource PhoneFontFamilySemiLight}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                </Border>
-            </Border>
-        </DataTemplate>
-        <phone:JumpListItemBackgroundConverter x:Key="BackgroundConverter"/>
-        <phone:JumpListItemForegroundConverter x:Key="ForegroundConverter"/>
-        <Style x:Key="FileJumpListStyle" TargetType="phone:LongListSelector">
-            <Setter Property="GridCellSize"  Value="113,113"/>
-            <Setter Property="LayoutMode" Value="Grid" />
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <Border Background="{Binding Converter={StaticResource BackgroundConverter}}" Width="113" Height="113" Margin="6" >
-                            <TextBlock Text="{Binding Key}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="48" Padding="6" 
-               Foreground="{Binding Converter={StaticResource ForegroundConverter}}" VerticalAlignment="Center"/>
-                        </Border>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </phone:PhoneApplicationPage.Resources>
-    
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+	<Grid x:Name="LayoutRoot" Background="Transparent">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-        <!-- LOCALIZATION NOTE:
+		<!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named
             keys in the app's neutral language resource file (AppResources.resx) then
             replace the hard-coded text value between the attributes' quotation marks
@@ -115,103 +130,135 @@
             CurrentUICulture of the app at run time.
          -->
 
-        <!--TitlePanel contains the name of the application and page title-->
+		<!--TitlePanel contains the name of the application and page title-->
 
-        <!--ContentPanel - place additional content here-->
-        <phone:Panorama Title="{Binding Path=LocalizedResources.AppName, Source={StaticResource LocalizedStrings}}" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
-            <phone:PanoramaItem Name="PanoramaItemAbout" CacheMode="{x:Null}" Header="{Binding Path=LocalizedResources.About, Source={StaticResource LocalizedStrings}}">
-        		<phone:PanoramaItem.RenderTransform>
-        			<TranslateTransform/>
-        		</phone:PanoramaItem.RenderTransform>
-        		<Grid>
-                    <ScrollViewer Name="Wp81">
-                        <RichTextBox Margin="0" Width="420" ContentChanged="RichTextBox_ContentChanged">
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.Description, Source={StaticResource LocalizedStrings}}"/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.Proposal, Source={StaticResource LocalizedStrings}}"/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.WP81Bug, Source={StaticResource LocalizedStrings}}"/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.Credit, Source={StaticResource LocalizedStrings}}"/>
-                                <Hyperlink NavigateUri="http://ace.c9.io/" TargetName="_blank">http://ace.c9.io/</Hyperlink>
-                            </Paragraph>
-                        </RichTextBox>
-                    </ScrollViewer>
-                    <ScrollViewer Name="Wp80">
-                        <RichTextBox Margin="0" Width="420" ContentChanged="RichTextBox_ContentChanged">
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.Description, Source={StaticResource LocalizedStrings}}"/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.Proposal, Source={StaticResource LocalizedStrings}}"/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.WP80Bug, Source={StaticResource LocalizedStrings}}"/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run/>
-                            </Paragraph>
-                            <Paragraph>
-                                <Run Text="{Binding Path=LocalizedResources.Credit, Source={StaticResource LocalizedStrings}}"/>
-                                <Hyperlink NavigateUri="http://ace.c9.io/" TargetName="_blank">http://ace.c9.io/</Hyperlink>
-                            </Paragraph>
-                        </RichTextBox>
-                    </ScrollViewer>
-                </Grid>
-        	</phone:PanoramaItem>
-            <phone:PanoramaItem CacheMode="{x:Null}" Header="">
-                <phone:PanoramaItem.RenderTransform>
-                    <TranslateTransform/>
-                </phone:PanoramaItem.RenderTransform>
-                <Grid>
-                    <ScrollViewer Margin="0,-36,0,0">
+		<!--ContentPanel - place additional content here-->
+		<phone:Panorama Name="Panorama" Title="{Binding LocalizedResources.AppName, Source={StaticResource LocalizedStrings}}" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
+			<phone:PanoramaItem x:Name="PanoramaItemAbout" CacheMode="{x:Null}" Header="{Binding LocalizedResources.About, Source={StaticResource LocalizedStrings}}">
+				<phone:PanoramaItem.RenderTransform>
+					<TranslateTransform/>
+				</phone:PanoramaItem.RenderTransform>
+				<Grid>
+					<ScrollViewer x:Name="Wp81">
+						<RichTextBox Margin="0" Width="420" ContentChanged="RichTextBox_ContentChanged">
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.Description, Source={StaticResource LocalizedStrings}}"/>
+							</Paragraph>
+							<Paragraph>
+								<Run/>
+							</Paragraph>
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.Proposal, Source={StaticResource LocalizedStrings}}"/>
+							</Paragraph>
+							<Paragraph>
+								<Run/>
+							</Paragraph>
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.WP81Bug, Source={StaticResource LocalizedStrings}}"/>
+							</Paragraph>
+							<Paragraph>
+								<Run/>
+							</Paragraph>
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.Credit, Source={StaticResource LocalizedStrings}}"/>
+								<Hyperlink NavigateUri="http://ace.c9.io/" TargetName="_blank">
+									<Run Text="http://ace.c9.io/"/>
+								</Hyperlink>
+							</Paragraph>
+						</RichTextBox>
+					</ScrollViewer>
+					<ScrollViewer x:Name="Wp80">
+						<RichTextBox Margin="0" Width="420" ContentChanged="RichTextBox_ContentChanged">
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.Description, Source={StaticResource LocalizedStrings}}"/>
+							</Paragraph>
+							<Paragraph>
+								<Run/>
+							</Paragraph>
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.Proposal, Source={StaticResource LocalizedStrings}}"/>
+							</Paragraph>
+							<Paragraph>
+								<Run/>
+							</Paragraph>
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.WP80Bug, Source={StaticResource LocalizedStrings}}"/>
+							</Paragraph>
+							<Paragraph>
+								<Run/>
+							</Paragraph>
+							<Paragraph>
+								<Run Text="{Binding LocalizedResources.Credit, Source={StaticResource LocalizedStrings}}"/>
+								<Hyperlink NavigateUri="http://ace.c9.io/" TargetName="_blank">
+									<Run Text="http://ace.c9.io/"/>
+								</Hyperlink>
+							</Paragraph>
+						</RichTextBox>
+					</ScrollViewer>
+				</Grid>
+			</phone:PanoramaItem>
+			<phone:PanoramaItem CacheMode="{x:Null}" Header="">
+				<phone:PanoramaItem.RenderTransform>
+					<TranslateTransform/>
+				</phone:PanoramaItem.RenderTransform>
+				<Grid>
+					<ScrollViewer Margin="0,-36,0,0">
+						<StackPanel>
+							<toolkit:PhoneTextBox Hint="{Binding LocalizedResources.Input_url_to_download, Source={StaticResource LocalizedStrings}}" KeyDown="UIElement_OnKeyDown"/>
+							<phone:LongListSelector x:Name="FileListSelector" JumpListStyle="{StaticResource FileJumpListStyle}"
+								Background="Transparent"
+								GroupHeaderTemplate="{StaticResource FileGroupHeaderTemplate}"
+								ItemTemplate="{StaticResource FileItemTemplate}"
+								LayoutMode="List"
+								IsGroupingEnabled="true"
+								HideEmptyGroups ="true"
+								SelectionChanged="FileListSelector_OnSelectionChanged" Margin="0"/>
+							<StackPanel x:Name="NoFile" Height="457" Width="420">
+								<TextBlock TextWrapping="Wrap" Text=":-(" FontSize="346.667" FontFamily="Arial" Margin="0"/>
+								<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding LocalizedResources.No_file, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Bottom"/>
+							</StackPanel>
+						</StackPanel>
+					</ScrollViewer>
+				</Grid>
+			</phone:PanoramaItem>
+			<phone:PanoramaItem Header="Connect">
+				<Grid>
+					<ScrollViewer>
                         <StackPanel>
-                            <toolkit:PhoneTextBox Hint="{Binding Path=LocalizedResources.Input_url_to_download, Source={StaticResource LocalizedStrings}}" KeyDown="UIElement_OnKeyDown"/>
-                    		<phone:LongListSelector x:Name="FileListSelector" JumpListStyle="{StaticResource FileJumpListStyle}"
-                    			Background="Transparent"
-                    			GroupHeaderTemplate="{StaticResource FileGroupHeaderTemplate}"
-                    			ItemTemplate="{StaticResource FileItemTemplate}"
-                    			LayoutMode="List"
-                    			IsGroupingEnabled="true"
-                    			HideEmptyGroups ="true"
-                    			SelectionChanged="FileListSelector_OnSelectionChanged" Margin="0"/>
-                            <StackPanel x:Name="NoFile" Height="457" Width="420">
-                                <TextBlock TextWrapping="Wrap" Text=":-(" FontSize="346.667" FontFamily="Arial" Margin="0"/>
-                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.No_file, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Bottom"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </ScrollViewer>
-                </Grid>
-            </phone:PanoramaItem>
-        </phone:Panorama>
+                            <toolkit:ContextMenuService.ContextMenu>
+                                <toolkit:ContextMenu>
+                                    <toolkit:MenuItem Tap="DropboxLogOff" Header="{Binding LocalizedResources.Log_off, Source={StaticResource LocalizedStrings}}"></toolkit:MenuItem>
+                                </toolkit:ContextMenu>
+                            </toolkit:ContextMenuService.ContextMenu>
+                            <TextBlock Name="DropboxButtonBlock" TextAlignment="Right" Margin="0 0 20 -60"  Padding="0 20 ">Click to log in</TextBlock>
+                            <Controls:ImageTile HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="{x:Null}" Tap="Dropbox_OnTap">
+								<Image Source="/Assets/images/dropbox-logos_dropbox-logotype-blue.png" Stretch="Fill" HorizontalAlignment="Center"/>
+							</Controls:ImageTile>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Opacity="0.4">
+                            	<Run FontSize="32" Text="+FTP account "/>
+                            	<Run/>
+                            	<LineBreak/>
+                            	<Run Text="(working on, comming soon)"/>
+                            </TextBlock>
+						</StackPanel>
+					</ScrollViewer>
+				</Grid>
+			</phone:PanoramaItem>
+		</phone:Panorama>
+		<Grid Name="AuthGrid" Grid.RowSpan="2" Visibility="Collapsed">
+			<ScrollViewer Margin="0">
+				<phone:WebBrowser Name="AuthBrowser" IsScriptEnabled="True"/>
+			</ScrollViewer>
+		</Grid>
         
         
 
-        <!--Uncomment to see an alignment grid to help ensure your controls are
+		<!--Uncomment to see an alignment grid to help ensure your controls are
             aligned on common boundaries.  The image has a top margin of -32px to
             account for the System Tray. Set this to 0 (or remove the margin altogether)
             if the System Tray is hidden.
 
             Before shipping remove this XAML and the image itself.-->
-        <!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
-    </Grid>
+		<!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
+	</Grid>
 </phone:PhoneApplicationPage>

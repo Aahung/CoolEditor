@@ -329,4 +329,28 @@
   <data name="WP81Bug" xml:space="preserve">
     <value>如果你在使用WP8.1，在编辑代码的时候可能会遇到回车键失灵的情况，请尝试按其他的按键然后再次按回车键。我会努力修复。</value>
   </data>
+  <data name="upload_dropbox" xml:space="preserve">
+    <value>上传至Dropbox</value>
+  </data>
+  <data name="Last_sync" xml:space="preserve">
+    <value>上次同步</value>
+  </data>
+  <data name="Network_error" xml:space="preserve">
+    <value>网络错误，请稍后重试。</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>同步</value>
+  </data>
+  <data name="No_change" xml:space="preserve">
+    <value>并未做出任何修改。</value>
+  </data>
+  <data name="Click_to_login" xml:space="preserve">
+    <value>轻拍此处登陆</value>
+  </data>
+  <data name="Log_off" xml:space="preserve">
+    <value>注销</value>
+  </data>
+  <data name="would_you_like_error_report" xml:space="preserve">
+    <value>很抱歉，上次运行的时候好像出了错误，介意让程序自动发封邮件告诉我吗？</value>
+  </data>
 </root>

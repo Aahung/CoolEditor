@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoolEditor.Resources;
-using DropNetRT;
+using DropNetClient = CoolEditor.Class.DropNetRt.DropNetClient;
 
 namespace CoolEditor.Class
 {

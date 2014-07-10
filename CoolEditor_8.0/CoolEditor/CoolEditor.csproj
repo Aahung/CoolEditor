@@ -95,7 +95,28 @@
     <Compile Include="Assets\TiltEffect.cs" />
     <Compile Include="Class\AlphaKeyGroup.cs" />
     <Compile Include="Class\AssociationUriMapper.cs" />
+    <Compile Include="Class\Authentication.cs" />
+    <Compile Include="Class\DropNetRt\Authentication\OAuthMessageHandler.cs" />
+    <Compile Include="Class\DropNetRt\Client.cs" />
+    <Compile Include="Class\DropNetRt\Client.Files.cs" />
+    <Compile Include="Class\DropNetRt\Client.Helpers.cs" />
+    <Compile Include="Class\DropNetRt\Client.User.cs" />
+    <Compile Include="Class\DropNetRt\Exceptions\DropboxException.cs" />
+    <Compile Include="Class\DropNetRt\Extensions\StringExtensions.cs" />
+    <Compile Include="Class\DropNetRt\Helpers\StreamUtils.cs" />
+    <Compile Include="Class\DropNetRt\HttpHelpers\HttpParameter.cs" />
+    <Compile Include="Class\DropNetRt\HttpHelpers\HttpRequest.cs" />
+    <Compile Include="Class\DropNetRt\HttpHelpers\QueryParameterComparer.cs" />
+    <Compile Include="Class\DropNetRt\Models\AccountInfo.cs" />
+    <Compile Include="Class\DropNetRt\Models\DeltaPage.cs" />
+    <Compile Include="Class\DropNetRt\Models\DeltaPageInternal.cs" />
+    <Compile Include="Class\DropNetRt\Models\MetaData.cs" />
+    <Compile Include="Class\DropNetRt\Models\SharesResponse.cs" />
+    <Compile Include="Class\DropNetRt\Models\ThumbnailSize.cs" />
+    <Compile Include="Class\DropNetRt\Models\UserLogin.cs" />
     <Compile Include="Class\FileIOUtility.cs" />
+    <Compile Include="Class\LittleWatson.cs" />
+    <Compile Include="Class\LocalDatabase.cs" />
     <Compile Include="Class\ShareBox.cs" />
     <Compile Include="Class\SimpleProgressIndicator.cs" />
     <Compile Include="Class\ToastNotification.cs" />
@@ -105,6 +126,9 @@
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineFileSelect.xaml.cs">
+      <DependentUpon>OnlineFileSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
@@ -129,12 +153,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OnlineFileSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Assets\black\Thumbs.db" />
     <None Include="Assets\black_with_circle\Thumbs.db" />
     <Resource Include="Assets\Sample_Code\sample.php" />
@@ -145,7 +174,9 @@
     <None Include="Assets\white\Thumbs.db" />
     <None Include="Assets\white_with_circle\Thumbs.db" />
     <None Include="packages.config" />
-    <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\AppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
@@ -159,6 +190,7 @@
     <Content Include="Assets\AppBar\edit.png" />
     <Content Include="Assets\AppBar\feature.search.png" />
     <Content Include="Assets\AppBar\save.png" />
+    <Content Include="Assets\AppBar\sync.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -434,6 +466,8 @@
     <Content Include="Assets\black_with_circle\Zoom-out.png" />
     <Content Include="Assets\black_with_circle\Zoom.png" />
     <Content Include="Assets\Coding4Fun.Toolkit.Controls.dll" />
+    <Content Include="Assets\images\dropbox-logos_dropbox-glyph-blue.png" />
+    <Content Include="Assets\images\dropbox-logos_dropbox-logotype-blue.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\no_file.png" />
     <Resource Include="Assets\Sample_Code\sample.cpp" />
@@ -749,6 +783,7 @@
     <Content Include="Assets\white_with_circle\Zoom.png" />
     <Content Include="Assets\WideLogo.png" />
     <Content Include="Html\Editor.html" />
+    <Content Include="Html\jquery.js" />
     <Content Include="Html\src-min-noconflict\ace.js" />
     <Content Include="Html\src-min-noconflict\ext-beautify.js" />
     <Content Include="Html\src-min-noconflict\ext-chromevox.js" />
@@ -757,6 +792,7 @@
     <Content Include="Html\src-min-noconflict\ext-error_marker.js" />
     <Content Include="Html\src-min-noconflict\ext-keybinding_menu.js" />
     <Content Include="Html\src-min-noconflict\ext-language_tools.js" />
+    <Content Include="Html\src-min-noconflict\ext-linking.js" />
     <Content Include="Html\src-min-noconflict\ext-modelist.js" />
     <Content Include="Html\src-min-noconflict\ext-old_ie.js" />
     <Content Include="Html\src-min-noconflict\ext-searchbox.js" />
@@ -774,6 +810,7 @@
     <Content Include="Html\src-min-noconflict\mode-actionscript.js" />
     <Content Include="Html\src-min-noconflict\mode-ada.js" />
     <Content Include="Html\src-min-noconflict\mode-apache_conf.js" />
+    <Content Include="Html\src-min-noconflict\mode-applescript.js" />
     <Content Include="Html\src-min-noconflict\mode-asciidoc.js" />
     <Content Include="Html\src-min-noconflict\mode-assembly_x86.js" />
     <Content Include="Html\src-min-noconflict\mode-autohotkey.js" />
@@ -792,6 +829,7 @@
     <Content Include="Html\src-min-noconflict\mode-dart.js" />
     <Content Include="Html\src-min-noconflict\mode-diff.js" />
     <Content Include="Html\src-min-noconflict\mode-django.js" />
+    <Content Include="Html\src-min-noconflict\mode-dockerfile.js" />
     <Content Include="Html\src-min-noconflict\mode-dot.js" />
     <Content Include="Html\src-min-noconflict\mode-ejs.js" />
     <Content Include="Html\src-min-noconflict\mode-erlang.js" />
@@ -806,7 +844,6 @@
     <Content Include="Html\src-min-noconflict\mode-haskell.js" />
     <Content Include="Html\src-min-noconflict\mode-haxe.js" />
     <Content Include="Html\src-min-noconflict\mode-html.js" />
-    <Content Include="Html\src-min-noconflict\mode-html_completions.js" />
     <Content Include="Html\src-min-noconflict\mode-html_ruby.js" />
     <Content Include="Html\src-min-noconflict\mode-ini.js" />
     <Content Include="Html\src-min-noconflict\mode-jack.js" />
@@ -833,7 +870,6 @@
     <Content Include="Html\src-min-noconflict\mode-matlab.js" />
     <Content Include="Html\src-min-noconflict\mode-mel.js" />
     <Content Include="Html\src-min-noconflict\mode-mushcode.js" />
-    <Content Include="Html\src-min-noconflict\mode-mushcode_high_rules.js" />
     <Content Include="Html\src-min-noconflict\mode-mysql.js" />
     <Content Include="Html\src-min-noconflict\mode-nix.js" />
     <Content Include="Html\src-min-noconflict\mode-objectivec.js" />
@@ -874,6 +910,7 @@
     <Content Include="Html\src-min-noconflict\mode-toml.js" />
     <Content Include="Html\src-min-noconflict\mode-twig.js" />
     <Content Include="Html\src-min-noconflict\mode-typescript.js" />
+    <Content Include="Html\src-min-noconflict\mode-vala.js" />
     <Content Include="Html\src-min-noconflict\mode-vbscript.js" />
     <Content Include="Html\src-min-noconflict\mode-velocity.js" />
     <Content Include="Html\src-min-noconflict\mode-verilog.js" />
@@ -885,6 +922,7 @@
     <Content Include="Html\src-min-noconflict\snippets\actionscript.js" />
     <Content Include="Html\src-min-noconflict\snippets\ada.js" />
     <Content Include="Html\src-min-noconflict\snippets\apache_conf.js" />
+    <Content Include="Html\src-min-noconflict\snippets\applescript.js" />
     <Content Include="Html\src-min-noconflict\snippets\asciidoc.js" />
     <Content Include="Html\src-min-noconflict\snippets\assembly_x86.js" />
     <Content Include="Html\src-min-noconflict\snippets\autohotkey.js" />
@@ -903,6 +941,7 @@
     <Content Include="Html\src-min-noconflict\snippets\dart.js" />
     <Content Include="Html\src-min-noconflict\snippets\diff.js" />
     <Content Include="Html\src-min-noconflict\snippets\django.js" />
+    <Content Include="Html\src-min-noconflict\snippets\dockerfile.js" />
     <Content Include="Html\src-min-noconflict\snippets\dot.js" />
     <Content Include="Html\src-min-noconflict\snippets\ejs.js" />
     <Content Include="Html\src-min-noconflict\snippets\erlang.js" />
@@ -917,7 +956,6 @@
     <Content Include="Html\src-min-noconflict\snippets\haskell.js" />
     <Content Include="Html\src-min-noconflict\snippets\haxe.js" />
     <Content Include="Html\src-min-noconflict\snippets\html.js" />
-    <Content Include="Html\src-min-noconflict\snippets\html_completions.js" />
     <Content Include="Html\src-min-noconflict\snippets\html_ruby.js" />
     <Content Include="Html\src-min-noconflict\snippets\ini.js" />
     <Content Include="Html\src-min-noconflict\snippets\jack.js" />
@@ -944,7 +982,6 @@
     <Content Include="Html\src-min-noconflict\snippets\matlab.js" />
     <Content Include="Html\src-min-noconflict\snippets\mel.js" />
     <Content Include="Html\src-min-noconflict\snippets\mushcode.js" />
-    <Content Include="Html\src-min-noconflict\snippets\mushcode_high_rules.js" />
     <Content Include="Html\src-min-noconflict\snippets\mysql.js" />
     <Content Include="Html\src-min-noconflict\snippets\nix.js" />
     <Content Include="Html\src-min-noconflict\snippets\objectivec.js" />
@@ -985,6 +1022,7 @@
     <Content Include="Html\src-min-noconflict\snippets\toml.js" />
     <Content Include="Html\src-min-noconflict\snippets\twig.js" />
     <Content Include="Html\src-min-noconflict\snippets\typescript.js" />
+    <Content Include="Html\src-min-noconflict\snippets\vala.js" />
     <Content Include="Html\src-min-noconflict\snippets\vbscript.js" />
     <Content Include="Html\src-min-noconflict\snippets\velocity.js" />
     <Content Include="Html\src-min-noconflict\snippets\verilog.js" />
@@ -1059,6 +1097,18 @@
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -1073,4 +1123,9 @@
   </Target>
   -->
   <ProjectExtensions />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
 </Project>

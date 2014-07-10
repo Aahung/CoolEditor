@@ -40,6 +40,7 @@
         <SupportedFileTypes>
           <FileType ContentType="application/sdk">.cu</FileType>
           <FileType ContentType="application/sdk">.cpp</FileType>
+          <FileType ContentType="application/sdk">.c</FileType>
           <FileType ContentType="application/sdk">.cxx</FileType>
           <FileType ContentType="application/sdk">.hpp</FileType>
           <FileType ContentType="application/sdk">.hxx</FileType>

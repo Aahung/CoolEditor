@@ -16,8 +16,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Coding4Fun.Toolkit.Controls;
 using CoolEditor.Class;
-using DropNetRT;
-using DropNetRT.Models;
+using CoolEditor.Class.DropNetRt.Models;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using CoolEditor.Resources;
@@ -25,6 +24,7 @@ using System.IO.IsolatedStorage;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
+using DropNetClient = CoolEditor.Class.DropNetRt.DropNetClient;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace CoolEditor
@@ -160,6 +160,7 @@ namespace CoolEditor
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            LittleWatson.CheckForPreviousException();
             //handle back navigation
             FileListSelector.SelectedItem = null;
             ListFiles();
@@ -188,6 +189,7 @@ namespace CoolEditor
 
                     trialMessageBox.Show();
                 }
+                Panorama.DefaultItem = Panorama.Items[1];
             }
 #if DEBUG
             PanoramaItemAbout.Header = "about";//specify when is debugging
@@ -294,10 +296,16 @@ namespace CoolEditor
                 }
                 if (await FileIOUtility.DeleteFileAsync(file.ActualFileName))
                 {
-                    _fileDB.FileItems.DeleteOnSubmit(file);
-                    _fileDB.SubmitChanges();
-                    await ListFiles();
-                    ToastNotification.ShowSimple(file.FileName + " " + AppResources.Delete_success);
+                    _fileDB.SubmitChanges(); // in case the last commit not take effect
+                    // idea from http://stackoverflow.com/questions/11204491/im-sure-someone-has-seen-this-cannot-remove-an-entity-that-has-not-been-attach
+                    var toBeDelete = _fileDB.FileItems.FirstOrDefault(f => f.Id == file.Id);
+                    if (toBeDelete != null)
+                    {
+                        _fileDB.FileItems.DeleteOnSubmit(toBeDelete);
+                        _fileDB.SubmitChanges();
+                        await ListFiles();
+                        ToastNotification.ShowSimple(file.FileName + " " + AppResources.Delete_success);
+                    }
                     //ListFiles();
                 }
                 else

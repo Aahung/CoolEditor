@@ -15,9 +15,8 @@ namespace CoolEditor.Class
     class FileIOUtility
     {
         static readonly StorageFolder Folder = ApplicationData.Current.LocalFolder;
-        static public async Task<string> CreateFileAndWriteDataAsync(string fileName, string content)
+        static public async Task CreateFileAndWriteDataAsync(string fileName, string content)
         {
-            SimpleProgressIndicator.Set(true);
             string actualFileName = null;
             //check if filename repeated
             var fileNameExists = await FileNameExists(fileName);
@@ -42,57 +41,61 @@ namespace CoolEditor.Class
                             actualFileName = await WriteDataToFileAsync(fileName, content, false);
                             break;
                     }
-                    try
-                    {
-                        var currentPage = ((PhoneApplicationFrame) Application.Current.RootVisual).Content as MainPage;
-                        if (currentPage != null) //await currentPage.ListFiles();
-                            currentPage.OpenFile(actualFileName);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+                    //try
+                    //{
+                    //    var currentPage = ((PhoneApplicationFrame) Application.Current.RootVisual).Content as MainPage;
+                    //    if (currentPage != null) //await currentPage.ListFiles();
+                    //        currentPage.OpenFile(actualFileName);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    Console.WriteLine(ex.Message);
+                    //}
                 };
                 customMessageBox.Show();
             }
             else
             {
                 actualFileName = await WriteDataToFileAsync(fileName, content);
-                try
-                {
-                    var currentPage = ((PhoneApplicationFrame)Application.Current.RootVisual).Content as MainPage;
-                    if (currentPage != null) //await currentPage.ListFiles();
-                        currentPage.OpenFile(actualFileName);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                //try
+                //{
+                //    var currentPage = ((PhoneApplicationFrame)Application.Current.RootVisual).Content as MainPage;
+                //    if (currentPage != null) //await currentPage.ListFiles();
+                //        currentPage.OpenFile(actualFileName);
+                //}
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine(ex.Message);
+                //}
             }
-            SimpleProgressIndicator.Set(false);
-            return actualFileName;
         }
 
         static private async Task<Boolean> FileNameExists(string fileName)
         {
-            var files = await Folder.GetFilesAsync();
-            foreach (var file in files)
+            try
             {
-                var storageFile = file as StorageFile;
-                if (storageFile != null && storageFile.Name == fileName)
+                var files = await Folder.GetFilesAsync();
+
+                foreach (var file in files)
                 {
-                    return true;
+                    var storageFile = file as StorageFile;
+                    if (storageFile != null && storageFile.Name == fileName)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         static public async Task<Boolean> RenameFileAsync(string fileName, string newFileName)
         {
-            SimpleProgressIndicator.Set(true);
             if (await FileNameExists(newFileName))
             {
-                SimpleProgressIndicator.Set(false);
                 return false;
             }
             var file = await Folder.GetFileAsync(fileName);
@@ -102,24 +105,21 @@ namespace CoolEditor.Class
             }
             catch (Exception ex)
             {
-                SimpleProgressIndicator.Set(false);
                 return false;
             }
-            SimpleProgressIndicator.Set(false);
             return true;
         } 
 
-        static public async Task<string> WriteDataToFileAsync(string fileName, string content)
+        static public async Task<string> WriteDataToFileAsync(string actualFileName, string content)
         {
-            return await WriteDataToFileAsync(fileName, content, true);
+            return await WriteDataToFileAsync(actualFileName, content, true);
         }
 
-        static public async Task<string> WriteDataToFileAsync(string fileName, string content, Boolean overwrite)
+        static public async Task<string> WriteDataToFileAsync(string actualFileName, string content, Boolean overwrite)
         {
-            SimpleProgressIndicator.Set(true);
             byte[] data = Encoding.UTF8.GetBytes(content);
 
-            var file = await Folder.CreateFileAsync(fileName, 
+            var file = await Folder.CreateFileAsync(actualFileName, 
                 (overwrite)
                 ? CreationCollisionOption.ReplaceExisting
                 : CreationCollisionOption.GenerateUniqueName);
@@ -129,43 +129,38 @@ namespace CoolEditor.Class
                 await s.WriteAsync(data, 0, data.Length);
             }
 
-            SimpleProgressIndicator.Set(false);
             return file.Name;
         }
 
-        static public async Task<string> ReadFileContentsAsync(string fileName)
+        static public async Task<string> ReadFileContentsAsync(string actualFileName)
         {
-            SimpleProgressIndicator.Set(true);
             try
             {
-                var file = await Folder.OpenStreamForReadAsync(fileName);
+                var file = await Folder.OpenStreamForReadAsync(actualFileName);
 
-                using (var streamReader = new StreamReader(file))
+                using (var streamReader = new StreamReader(file, true))
                 {
-                    SimpleProgressIndicator.Set(false);
                     return streamReader.ReadToEnd();
                 }
             }
             catch (Exception)
             {
-                SimpleProgressIndicator.Set(false);
                 return string.Empty;
             }
         }
 
-        static public async Task<Boolean> DeleteFileAsync(string fileName)
+        static public async Task<Boolean> DeleteFileAsync(string actualFileName)
         {
-            SimpleProgressIndicator.Set(true);
+            if (await FileNameExists(actualFileName))
+                return true;
             try
             {
-                var file = await Folder.GetFileAsync(fileName);
+                var file = await Folder.GetFileAsync(actualFileName);
                 await file.DeleteAsync();
-                SimpleProgressIndicator.Set(false);
                 return true;
             }
             catch (Exception ex)
             {
-                SimpleProgressIndicator.Set(false);
                 return false;
             }
         } 

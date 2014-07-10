@@ -17,7 +17,7 @@ namespace CoolEditor
         {
             InitializeComponent();
             // initialize mode selector
-            var modeNames = new String[]{"actionscript", "assembly_x86", "batchfile", "c9search", "c_cpp", "coffee", "csharp", "css", "dart", "golang", "groovy", "html", "html_completions", "html_ruby", "ini", "java", "javascript", "json", "jsp", "latex", "less", "lisp", "makefile", "markdown", "matlab", "mysql", "objectivec", "ocaml", "pascal", "perl", "pgsql", "php", "plain_text", "powershell", "python", "r", "ruby", "sh", "space", "sql", "svg", "tcl", "tex", "text", "typescript", "vbscript", "verilog","xml", "xquery", "yaml"};
+            var modeNames = new String[]{"actionscript", "assembly_x86", "batchfile", "c9search", "c_cpp", "coffee", "csharp", "css", "dart", "golang", "groovy", "html", "html_completions", "html_ruby", "ini", "java", "javascript", "json", "jsp", "latex", "less", "lisp", "makefile", "markdown", "matlab", "mysql", "objectivec", "ocaml", "pascal", "perl", "pgsql", "php", "plain_text", "powershell", "python", "r", "ruby", "sh", "space", "sql", "svg", "tcl", "tex", "text", "typescript", "vbscript", "verilog", "vhdl", "xml", "xquery", "yaml"};
             var modeSource = modeNames.Select(modeName => new Items() {Name = modeName}).ToList();
             ModePicker.ItemsSource = modeSource;
             var selectedModeName = (App.Current as App).Mode;

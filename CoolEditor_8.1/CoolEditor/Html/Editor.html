@@ -4,6 +4,7 @@
     	<meta name="viewport" content="user-scalable=no, initial-scale=1, 
 maximum-scale=1, minimum-scale=1" />
         <title>Cool Editor</title>
+        <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript" src="src-min-noconflict/ace.js"></script>
         <style type="text/css" media="screen">
 		    #editor { 
@@ -63,6 +64,46 @@ maximum-scale=1, minimum-scale=1" />
                 } catch (e) {
                     return e;
                 }
+            }
+            function adjustCursor() {
+            	// editor.getSelection().on("changeSelection", adjustCursor);
+            	function samePos(pos1, pos2) {
+            		if (pos1.column == pos2.column && pos1.row == pos2.row) return true;
+            		return false;
+            	}
+            	var cursor = editor.getSelection().getCursor();
+            	var range = editor.getSelection().getRange();
+            	if (samePos(range.start, range.end)) return;
+            	var target;
+            	if (samePos(cursor, range.start)) target = range.end;
+            	else if (samePos(cursor, range.end)) target = range.end;
+            	else return;
+            	editor.getSelection().moveCursorToPosition(target);
+            	clearSelection();
+            	setViewOnly(true);
+            }
+            function clearSelection() {
+            	editor.selection.clearSelection();
+            }
+            function updateCursor() {
+            	clearSelection()
+            	// var top_margin = 45;
+            	var line_height = $('.ace_line').height();
+            	// var coef = (1.03 - 1.015) / (20 - 12);
+            	// var topOffset = (window.pageYOffset - top_margin) * 1.03 + window.innerHeight;
+            	// var screen_row = Math.floor(topOffset / line_height);
+            	// editor.selection.moveCursorToScreen(screen_row, 0);
+            	// console.log("line_height: " + line_height + " topOffset: " + topOffset + " moved to " + screen_row + ', 0');
+            	var cursorTopOffset = $('.ace_cursor').offset().top;
+            	var border_top = window.pageYOffset;
+            	var border_bottom = border_top + window.innerHeight;
+            	var threshold = 30;
+            	if (cursorTopOffset < border_top) {
+            		editor.selection.moveCursorBy(Math.ceil((border_top - cursorTopOffset) / line_height), 0);
+            	}
+            	if (cursorTopOffset > border_bottom) {
+            		editor.selection.moveCursorBy(Math.floor((border_bottom - cursorTopOffset) / line_height), 0);
+            	}
             }
         </script>
     </body>

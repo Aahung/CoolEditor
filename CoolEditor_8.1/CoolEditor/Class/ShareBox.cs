@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using CoolEditor.Resources;
-using DropNetRT;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
 

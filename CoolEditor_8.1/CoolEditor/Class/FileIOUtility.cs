@@ -72,16 +72,24 @@ namespace CoolEditor.Class
 
         static private async Task<Boolean> FileNameExists(string fileName)
         {
-            var files = await Folder.GetFilesAsync();
-            foreach (var file in files)
+            try
             {
-                var storageFile = file as StorageFile;
-                if (storageFile != null && storageFile.Name == fileName)
+                var files = await Folder.GetFilesAsync();
+
+                foreach (var file in files)
                 {
-                    return true;
+                    var storageFile = file as StorageFile;
+                    if (storageFile != null && storageFile.Name == fileName)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         static public async Task<Boolean> RenameFileAsync(string fileName, string newFileName)
@@ -130,7 +138,7 @@ namespace CoolEditor.Class
             {
                 var file = await Folder.OpenStreamForReadAsync(actualFileName);
 
-                using (var streamReader = new StreamReader(file))
+                using (var streamReader = new StreamReader(file, true))
                 {
                     return streamReader.ReadToEnd();
                 }

@@ -10,8 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using CoolEditor.Class;
+using CoolEditor.Class.DropNetRt.Models;
 using CoolEditor.Resources;
-using DropNetRT.Models;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
@@ -98,8 +98,8 @@ namespace CoolEditor
     public partial class OnlineFileSelect : PhoneApplicationPage
     {
         private ObservableCollection<FileMetaData> _source;
-        private Stack<DropNetRT.Models.Metadata> _folderDataStack;
-        private DropNetRT.Models.Metadata _currentFolderData;
+        private Stack<Metadata> _folderDataStack;
+        private Metadata _currentFolderData;
         public OnlineFileSelect()
         {
             InitializeComponent();
@@ -161,7 +161,7 @@ namespace CoolEditor
             }
         }
 
-        private static async Task<DropNetRT.Models.Metadata> LoadFilesInFolder(string path)
+        private static async Task<Metadata> LoadFilesInFolder(string path)
         {
             try
             {
@@ -225,6 +225,12 @@ namespace CoolEditor
                     }
                 }
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // back to normal page
+            NavigationService.GoBack();
         }
     }
 }

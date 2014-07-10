@@ -5,7 +5,7 @@
     <Language code="zh-Hans" />
     <Language code="zh-Hant" />
   </Languages>
-  <App xmlns="" ProductID="{44288236-df09-4856-80ad-5c79f4b4e61f}" Title="Cool Editor" RuntimeType="Silverlight" Version="1.0.0.1" Genre="apps.normal" Author="CoolEditor author" Description="A WP8 Text Editor" Publisher="CoolEditor" PublisherID="{2866c055-ca7a-4c6a-9c21-e7d1f12678c1}">
+  <App xmlns="" ProductID="{44288236-df09-4856-80ad-5c79f4b4e61f}" Title="Cool Editor" RuntimeType="Silverlight" Version="1.0.3.0" Genre="apps.normal" Author="CoolEditor author" Description="A WP8 Text Editor" Publisher="CoolEditor" PublisherID="{2866c055-ca7a-4c6a-9c21-e7d1f12678c1}">
     <IconPath IsRelative="true" IsResource="false">Assets\Tiles\icon_trans.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -21,11 +21,16 @@
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\icon_trans.png</BackgroundImageURI>
           <Title>Cool Editor</Title>
-          <BackContent></BackContent>
-          <BackBackgroundImageURI></BackBackgroundImageURI>
-          <BackTitle></BackTitle>
-          <DeviceLockImageURI></DeviceLockImageURI>
-          <HasLarge></HasLarge>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
+          <HasLarge>
+          </HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
@@ -38,6 +43,7 @@
         </Logos>
         <SupportedFileTypes>
           <FileType ContentType="application/sdk">.cu</FileType>
+          <FileType ContentType="application/sdk">.c</FileType>
           <FileType ContentType="application/sdk">.cpp</FileType>
           <FileType ContentType="application/sdk">.cxx</FileType>
           <FileType ContentType="application/sdk">.hpp</FileType>

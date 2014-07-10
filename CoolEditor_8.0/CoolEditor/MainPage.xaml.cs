@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +16,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Coding4Fun.Toolkit.Controls;
 using CoolEditor.Class;
+using CoolEditor.Class.DropNetRt.Models;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using CoolEditor.Resources;
@@ -21,27 +24,41 @@ using System.IO.IsolatedStorage;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
+using DropNetClient = CoolEditor.Class.DropNetRt.DropNetClient;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace CoolEditor
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private ObservableCollection<File> _source;
-        private ObservableCollection<AlphaKeyGroup<File>> _dataSource;
+        private const int DataFormatVersion = 2;
+        private ObservableCollection<FileItem> _files;
+        private ObservableCollection<AlphaKeyGroup<FileItem>> _dataSource;
         private MarketplaceDetailTask _marketPlaceDetailTask = new MarketplaceDetailTask();
+
+        private LocalDatabase _localDB;
+        private FileItemDataContext _fileDB;
         // Constructor
         public MainPage()
         {
             InitializeComponent();
             //handle first login in
-            IsolatedStorageSettings setting = IsolatedStorageSettings.ApplicationSettings;
+            var setting = IsolatedStorageSettings.ApplicationSettings;
+            // initialize database
+            _localDB = new LocalDatabase();
+            _fileDB = new FileItemDataContext(FileItemDataContext.DBConnectionString);
+            this.DataContext = this;
+
             if (setting.Contains("firstuse") && (string)setting["firstuse"] == "false")
             {
-                //do nothing
+                if (!setting.Contains("data-format-version") || Convert.ToInt16(setting["data-format-version"]) < DataFormatVersion)
+                {
+                    UpdateDataFormat();
+                }
             }
             else
             {
+                setting.Add("data-format-version", DataFormatVersion);
                 //move sample code to folder
                 LoadSampleFiles();
                 //
@@ -60,6 +77,49 @@ namespace CoolEditor
             {
                 Wp80.Visibility = Visibility.Collapsed;
             }
+            DropboxButtonBlock.Text = AppResources.Click_to_login;
+            DropboxButtonBlock.Visibility = (Authentication.DropboxIsLogin())
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+        }
+
+        private async Task UpdateDataFormat()
+        {
+            // update data format
+            IsolatedStorageSettings setting = IsolatedStorageSettings.ApplicationSettings;
+            if (!setting.Contains("data-format-version"))
+            {
+                setting.Add("data-format-version", 1);
+            }
+            switch (Convert.ToInt16(setting["data-format-version"]))
+            {
+                case 1:
+                    // move files to database
+                    var storageFiles = IsolatedStorageFile.GetUserStoreForApplication();
+                    var storageFolder = ApplicationData.Current.LocalFolder;
+                    var files = await storageFolder.GetFilesAsync();
+                    foreach (var file in files)
+                    {
+                        var storageFile = file as StorageFile;
+                        if (storageFile == null) continue;
+                        if (storageFile.Name == "__ApplicationSettings") continue;
+                        if (storageFile.Name.Contains(".tmp") || storageFile.Name.Contains("FileItem_Cooleditor.sdf")) continue;
+                        var dt = storageFiles.GetLastWriteTime(storageFile.Path).UtcDateTime;
+                        _fileDB.FileItems.InsertOnSubmit(new FileItem()
+                        {
+                            Id = Guid.NewGuid().GetHashCode(),
+                            FileName = storageFile.Name, 
+                            ActualFileName = storageFile.Name,
+                            LocalPath = storageFile.Path,
+                            LastModifiedTime = dt,
+                            LastSyncTime = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
+                        });
+                    }
+                    _fileDB.SubmitChanges();
+                    break;
+            }
+            setting["data-format-version"] = DataFormatVersion;
+            await ListFiles();
         }
 
         private void BuildLocalizedApplicationBar()
@@ -72,6 +132,13 @@ namespace CoolEditor
                 new ApplicationBarIconButton(new
                 Uri("/Assets/AppBar/add.png", UriKind.Relative)) {Text = AppResources.Create};
             appBarButton.Click += ApplicationBarIconButton1_OnClick;
+            ApplicationBar.Buttons.Add(appBarButton);
+
+            //sync button
+            appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/AppBar/sync.png", UriKind.Relative)) { Text = AppResources.Sync };
+            appBarButton.Click += SyncWithOnlineFile;
             ApplicationBar.Buttons.Add(appBarButton);
 
             //delete all button
@@ -87,15 +154,17 @@ namespace CoolEditor
             appBarMenuItem.Click += ApplicationBarMenuItem_OnClick;
             ApplicationBar.MenuItems.Add(appBarMenuItem);
 
-            ApplicationBar.Mode = ApplicationBarMode.Minimized; //minimize
+            ApplicationBar.Mode = ApplicationBarMode.Default;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            LittleWatson.CheckForPreviousException();
             //handle back navigation
             FileListSelector.SelectedItem = null;
             ListFiles();
+            SyncWithOnlineFile(null, null); // sync
 
             if (e.NavigationMode != NavigationMode.Back)
             {
@@ -120,10 +189,21 @@ namespace CoolEditor
 
                     trialMessageBox.Show();
                 }
+                Panorama.DefaultItem = Panorama.Items[1];
             }
 #if DEBUG
             PanoramaItemAbout.Header = "about";//specify when is debugging
 #endif
+        }
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            if (AuthGrid.Visibility == Visibility.Visible)
+            {
+                AuthGrid.Visibility = Visibility.Collapsed;
+                e.Cancel = true;
+            }
         }
 
         private async void LoadSampleFiles()
@@ -142,40 +222,49 @@ namespace CoolEditor
                 System.Windows.Resources.StreamResourceInfo strm = Application.GetResourceStream(new Uri(uri, UriKind.Relative));
                 var reader = new System.IO.StreamReader(strm.Stream);
                 string data = reader.ReadToEnd();
-                await FileIOUtility.WriteDataToFileAsync(sample, data);
-                await ListFiles();
+                var uniqueFileName = Guid.NewGuid().ToString();
+                await FileIOUtility.WriteDataToFileAsync(uniqueFileName, data);
+                _fileDB.FileItems.InsertOnSubmit(new FileItem()
+                {
+                    Id = Guid.NewGuid().GetHashCode(),
+                    FileName = sample,
+                    ActualFileName = uniqueFileName,
+                    LastModifiedTime = new DateTime(2000, 01, 01),
+                    LastSyncTime = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
+                });
+                _fileDB.SubmitChanges();
             }
+            await ListFiles();
         }
 
         public async Task ListFiles()
         {
-            var storageFiles = IsolatedStorageFile.GetUserStoreForApplication();
-            var storageFolder = ApplicationData.Current.LocalFolder;
-            var files = await storageFolder.GetFilesAsync();
-            _source = new ObservableCollection<File>();
-            foreach (var file in files)
-            {
-                var storageFile = file as StorageFile;
-                if (storageFile != null)
-                {
-                    if (storageFile.Name == "__ApplicationSettings") continue;
-                    if (storageFile.Name.Contains(".tmp")) continue;
-                    DateTime dt = storageFiles.GetLastWriteTime(storageFile.Path).LocalDateTime;
-                    _source.Add(new File(storageFile.Name, storageFile.Path, dt));
-                }
-            }
-            _dataSource = new ObservableCollection<AlphaKeyGroup<File>>(
-                AlphaKeyGroup<File>.CreateGroups(_source,
+            _fileDB = new FileItemDataContext(FileItemDataContext.DBConnectionString);
+            _files = new ObservableCollection<FileItem>(from FileItem file in _fileDB.FileItems select file);
+            _dataSource = new ObservableCollection<AlphaKeyGroup<FileItem>>(
+                AlphaKeyGroup<FileItem>.CreateGroups(_files,
                 System.Threading.Thread.CurrentThread.CurrentUICulture,
-                (File s) => s.FileName, true));
+                (FileItem s) => s.FileName, true));
             FileListSelector.ItemsSource = _dataSource;
-            NoFile.Visibility = !_source.Any() ? Visibility.Visible : Visibility.Collapsed;
-            FileListSelector.Visibility = _source.Any() ? Visibility.Visible : Visibility.Collapsed;
+            NoFile.Visibility = !_files.Any() ? Visibility.Visible : Visibility.Collapsed;
+            FileListSelector.Visibility = _files.Any() ? Visibility.Visible : Visibility.Collapsed;
+            //
+            DropboxButtonBlock.Visibility = (Authentication.DropboxIsLogin())
+                ? Visibility.Collapsed
+                : Visibility.Visible;
         }
 
-        public void OpenFile(string fileName)
+        public void OpenFile(string fileName, string actualFileName)
         {
-            NavigationService.Navigate(new Uri(string.Format("/Editor.xaml?name={0}", fileName), UriKind.Relative));
+            NavigationService.Navigate(new Uri(string.Format("/Editor.xaml?name={0}&actualname={1}", fileName, actualFileName), UriKind.Relative));
+        }
+
+        public void OpenFile(string actualFileName)
+        {
+            var theFile = (new ObservableCollection<FileItem>(
+                from FileItem file in _fileDB.FileItems where file.ActualFileName == actualFileName select file))
+                .FirstOrDefault();
+            if (theFile != null) OpenFile(theFile.FileName, theFile.ActualFileName);
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -184,8 +273,8 @@ namespace CoolEditor
             var menuItem = sender as MenuItem;
             if (menuItem != null)
             {
-                var file = (File)menuItem.DataContext;
-                var shareBox = new ShareBox(file.FileName);
+                var file = (FileItem)menuItem.DataContext;
+                var shareBox = new ShareBox(file.ActualFileName);
                 shareBox.Show();
             }
         }
@@ -196,7 +285,7 @@ namespace CoolEditor
             var menuItem = sender as MenuItem;
             if (menuItem != null)
             {
-                var file = (File)menuItem.DataContext;
+                var file = (FileItem)menuItem.DataContext;
                 MessageBoxResult result =
                 MessageBox.Show(AppResources.Delete_comfirm + " " + file.FileName + "?", AppResources.Warning,
                     MessageBoxButton.OKCancel);
@@ -205,19 +294,18 @@ namespace CoolEditor
                 {
                     return;
                 }
-                if (await FileIOUtility.DeleteFileAsync(file.FileName))
+                if (await FileIOUtility.DeleteFileAsync(file.ActualFileName))
                 {
-                    //_source.Remove(_source.FirstOrDefault(x => x.FileName == file.FileName));
-                    //var group =
-                    //    _dataSource.FirstOrDefault(x => x.FirstOrDefault(y => y.FileName == file.FileName) != null);
-                    //if (@group != null)
-                    //{
-                    //    var target = @group.FirstOrDefault(y => y.FileName == file.FileName);
-                    //    group.Remove(target);
-                    //    FileListSelector.ItemsSource = _dataSource;
-                    //}
-                    await ListFiles();
-                    ToastNotification.ShowSimple(file.FileName + " " + AppResources.Delete_success);
+                    _fileDB.SubmitChanges(); // in case the last commit not take effect
+                    // idea from http://stackoverflow.com/questions/11204491/im-sure-someone-has-seen-this-cannot-remove-an-entity-that-has-not-been-attach
+                    var toBeDelete = _fileDB.FileItems.FirstOrDefault(f => f.Id == file.Id);
+                    if (toBeDelete != null)
+                    {
+                        _fileDB.FileItems.DeleteOnSubmit(toBeDelete);
+                        _fileDB.SubmitChanges();
+                        await ListFiles();
+                        ToastNotification.ShowSimple(file.FileName + " " + AppResources.Delete_success);
+                    }
                     //ListFiles();
                 }
                 else
@@ -234,7 +322,7 @@ namespace CoolEditor
             var menuItem = sender as MenuItem;
             if (menuItem != null)
             {
-                var file = (File)menuItem.DataContext;
+                var file = (FileItem)menuItem.DataContext;
                 
                 var prompt = new InputPrompt {Title = AppResources.Rename_caption, Message = AppResources.Rename_message, Value = file.FileName};
                 prompt.Show();
@@ -242,12 +330,14 @@ namespace CoolEditor
                 prompt.Completed += async (s1, e1) =>
                 {
                     if (e1.PopUpResult != PopUpResult.Ok) return;
-                    if (await FileIOUtility.RenameFileAsync(file.FileName, e1.Result))
+                    try
                     {
+                        file.FileName = e1.Result;
+                        _fileDB.SubmitChanges();
                         ToastNotification.ShowSimple(file.FileName + " " + AppResources.Rename_to + " " + e1.Result);
                         await ListFiles();
                     }
-                    else
+                    catch (Exception)
                     {
                         ToastNotification.ShowSimple(AppResources.Rename_fail);
                     }
@@ -261,13 +351,13 @@ namespace CoolEditor
             {
                 return;
             }
-            var file = (File) FileListSelector.SelectedItem;
-            OpenFile(file.FileName);
+            var file = (FileItem) FileListSelector.SelectedItem;
+            OpenFile(file.FileName, file.ActualFileName);
         }
 
         private async void ApplicationBarIconButton_OnClick(object sender, EventArgs e)
         {
-            MessageBoxResult result =
+            var result =
                 MessageBox.Show(
                 AppResources.Delete_all_message, AppResources.Warning, MessageBoxButton.OKCancel);
 
@@ -282,6 +372,8 @@ namespace CoolEditor
                 {
                     await FileIOUtility.DeleteFileAsync(fileName);
                 }
+                _fileDB.FileItems.DeleteAllOnSubmit(_files);
+                _fileDB.SubmitChanges();
                 ToastNotification.ShowSimple(AppResources.Delete_all_success);
                 await ListFiles();
             }
@@ -289,7 +381,69 @@ namespace CoolEditor
             {
                 ToastNotification.ShowSimple(AppResources.Delete_all_fail);
             }
-            
+        }
+
+        private async void SyncWithOnlineFile(object sender, EventArgs e)
+        {
+            // sync
+            if (!Authentication.DropboxIsLogin())
+            {
+                return;
+            }
+            SimpleProgressIndicator.Set(true);
+            var theFiles = _files.Where(x => x.OnlineProvider == "dropbox" || false);
+            if (!theFiles.Any())
+            {
+                SimpleProgressIndicator.Set(false);
+                return;
+            }
+            foreach (var theFile in theFiles)
+            {
+                Metadata fileMetaData;
+                try
+                {
+                    fileMetaData = await (App.Current as App).DropboxClient.GetMetaData(theFile.OnlinePath);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+                // deal with sync
+                if (fileMetaData.Revision > theFile.Revision && fileMetaData.UTCDateModified > theFile.LastModifiedTime && 
+                    fileMetaData.UTCDateModified > theFile.LastSyncTime)
+                {
+                    // download
+                    byte[] fileBytes;
+                    try
+                    {
+                        fileBytes = await (App.Current as App).DropboxClient.GetFile(theFile.OnlinePath);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                    var content = Encoding.UTF8.GetString(fileBytes, 0, fileBytes.Length);
+                    await FileIOUtility.WriteDataToFileAsync(theFile.ActualFileName, content);
+                    theFile.LastModifiedTime = fileMetaData.UTCDateModified;
+                    theFile.LastSyncTime = DateTime.UtcNow;
+                    theFile.Revision = fileMetaData.Revision;
+                    theFile.ModifiedSinceLastSync = false;
+                }
+                else if (fileMetaData.Revision == theFile.Revision && theFile.ModifiedSinceLastSync)
+                {
+                    // upload
+                    var content = await FileIOUtility.ReadFileContentsAsync(theFile.ActualFileName);
+                    var onlineFolderPath = fileMetaData.Path.TrimEnd(fileMetaData.Name.ToArray());
+                    fileMetaData = await(App.Current as App).DropboxClient.Upload(onlineFolderPath, fileMetaData.Name, Encoding.UTF8.GetBytes(content));
+                    theFile.LastSyncTime = DateTime.UtcNow;
+                    // get revision number
+                    theFile.Revision = fileMetaData.Revision;
+                    theFile.ModifiedSinceLastSync = false;
+                }
+                _fileDB.SubmitChanges();
+            }
+            ListFiles();
+            SimpleProgressIndicator.Set(false);
         }
 
         private async void ApplicationBarIconButton1_OnClick(object sender, EventArgs e)
@@ -311,8 +465,18 @@ namespace CoolEditor
                 {
                     case CustomMessageBoxResult.LeftButton:
                         string fileName = textbox.Text;
-                        await FileIOUtility.WriteDataToFileAsync(fileName, "");
-                        NavigationService.Navigate(new Uri(string.Format("/Editor.xaml?name={0}", fileName), UriKind.Relative));
+                        var uniqueFileName = Guid.NewGuid().ToString();
+                        await FileIOUtility.WriteDataToFileAsync(uniqueFileName, "");
+                        _fileDB.FileItems.InsertOnSubmit(new FileItem()
+                        {
+                            Id = Guid.NewGuid().GetHashCode(),
+                            FileName = fileName,
+                            ActualFileName = uniqueFileName,
+                            LastModifiedTime = DateTime.UtcNow,
+                            LastSyncTime = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
+                        });
+                        _fileDB.SubmitChanges();
+                        NavigationService.Navigate(new Uri(string.Format("/Editor.xaml?name={0}&actualname={1}", fileName, uniqueFileName), UriKind.Relative));
                         break;
                     default:
                         break;
@@ -368,7 +532,19 @@ namespace CoolEditor
                     var content = e1.Result;
                     try
                     {
-                        fileName = await FileIOUtility.CreateFileAndWriteDataAsync(fileName, content); // write to local
+                        var uniqueFileName = Guid.NewGuid().ToString();
+                        await FileIOUtility.CreateFileAndWriteDataAsync(uniqueFileName, content); // write to local
+                        _fileDB.FileItems.InsertOnSubmit(new FileItem()
+                        {
+                            Id = Guid.NewGuid().GetHashCode(),
+                            FileName = fileName,
+                            ActualFileName = uniqueFileName,
+                            LastModifiedTime = DateTime.UtcNow,
+                            LastSyncTime = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
+                        });
+                        _fileDB.SubmitChanges();
+                        ToastNotification.ShowSimple(AppResources.Save_success);
+                        ListFiles();
                     }
                     catch (Exception)
                     {
@@ -393,36 +569,60 @@ namespace CoolEditor
 
         }
 
-    }
-    public class File
-    {
-        public string FileName
+        private async void Dropbox_OnTap(object sender, GestureEventArgs e)
         {
-            get;
-            set;
-        }
-        public string FilePath
-        {
-            get;
-            set;
+            if (Authentication.DropboxIsLogin())
+            {
+                NavigationService.Navigate(new Uri("/OnlineFileSelect.xaml", UriKind.Relative));
+                return;
+            }
+            DropboxAuthentication();
         }
 
-        public DateTime LastWriteTime
+        public async void DropboxAuthentication()
         {
-            get;
-            set;
+            SimpleProgressIndicator.Set(true);
+            (App.Current as App).DropboxClient = new DropNetClient(
+                (App.Current as App).DropboxApiKey,
+                (App.Current as App).DropboxApiSecret);
+            var requestToken = await(App.Current as App).DropboxClient.GetRequestToken();
+            var url = (App.Current as App).DropboxClient.BuildAuthorizeUrl(requestToken, "https://www.google.com/robots.txt");
+            AuthGrid.Visibility = Visibility.Visible;
+            AuthBrowser.Navigate(new Uri(url));
+            AuthBrowser.LoadCompleted += async (s1, e1) =>
+            {
+                SimpleProgressIndicator.Set(false);
+                if (e1.Uri.Host.Contains("www.google.com"))
+                {
+                    var accessToken = await (App.Current as App).DropboxClient.GetAccessToken();
+                    // save to setting
+                    var setting = IsolatedStorageSettings.ApplicationSettings;
+                    if (!setting.Contains("dropbox-key"))
+                    {
+                        setting.Add("dropbox-key", "");
+                        setting.Add("dropbox-secret", "");
+                    }
+                    setting["dropbox-key"] = accessToken.Token;
+                    setting["dropbox-secret"] = accessToken.Secret;
+                    setting.Save();
+                    // end save
+                    AuthGrid.Visibility = Visibility.Collapsed;
+                    // success message
+                    ToastNotification.ShowSimple("Successfully connected to Dropbox.");
+                    ListFiles();
+                }
+                else
+                {
+                }
+            };
         }
 
-        public string LastWriteTimeStr
+        private void DropboxLogOff(object s, EventArgs e)
         {
-            get { return string.Format("{0}: {1}", AppResources.Last_modified, LastWriteTime); }
-        }
-
-        public File(string filename, string filepath, DateTime lastwritetime)
-        {
-            this.FileName = filename;
-            this.FilePath = filepath;
-            this.LastWriteTime = lastwritetime;
+            Authentication.DropboxLogOff();
+            DropboxButtonBlock.Visibility = (Authentication.DropboxIsLogin())
+                ? Visibility.Collapsed
+                : Visibility.Visible;
         }
     }
 }

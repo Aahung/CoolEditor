@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace CoolEditor
     {
         private IDictionary<string, string> _queryStrings;
         private string _fileName;
+        private string _actualFileName;
         private Boolean _viewOnly;
         public Editor()
         {
@@ -123,18 +125,29 @@ namespace CoolEditor
                 if (key == "name")
                 {
                     _fileName = _queryStrings.FirstOrDefault().Value;
+                    _actualFileName = _queryStrings["actualname"];
                 }
                 else
                 {
                     var fileID = _queryStrings.FirstOrDefault().Value;
+                    _actualFileName = Guid.NewGuid().ToString();
                     _fileName = SharedStorageAccessManager.GetSharedFileName(fileID);
                     await SharedStorageAccessManager.CopySharedFileAsync(ApplicationData.Current.LocalFolder,
-                        _fileName, NameCollisionOption.GenerateUniqueName,
+                        _actualFileName, NameCollisionOption.ReplaceExisting,
                         fileID);
+                    var localDB = new LocalDatabase();
+                    var fileDB = new FileItemDataContext(FileItemDataContext.DBConnectionString);
+                    fileDB.FileItems.InsertOnSubmit(new FileItem()
+                    {
+                        Id = Guid.NewGuid().GetHashCode(),
+                        FileName = _fileName,
+                        ActualFileName = _actualFileName,
+                        LastModifiedTime = DateTime.UtcNow,
+                        LastSyncTime = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
+                    });
+                    fileDB.SubmitChanges();
                 }
                 var currentFolder = ApplicationData.Current.LocalFolder;
-                IStorageFile file = await currentFolder.GetFileAsync(_fileName);
-                _fileName = file.Name;
                 //means some file is coming
                 TitleTextBlock.Text = "Cool Editor - " + _fileName;
                 //var randomAccessStream = await file.OpenReadAsync();
@@ -143,7 +156,7 @@ namespace CoolEditor
                 //await reader.LoadAsync((uint)randomAccessStream.Size);
                 //string data = reader.ReadString((uint)randomAccessStream.Size);
                 //reader.DetachStream();
-                string data = await FileIOUtility.ReadFileContentsAsync(_fileName);
+                string data = await FileIOUtility.ReadFileContentsAsync(_actualFileName);
                 var fileExtension = _fileName.Split('.')[_fileName.Split('.').Count() - 1];
                 var escapedFileContent = HttpUtility.UrlEncode(data);
                 var modeStr = "";
@@ -209,7 +222,8 @@ namespace CoolEditor
                         editor.setTheme('ace/theme/{0}');
 	                    editor.getSession().setUseWrapMode(true);
                         editor.getSession().on('change', resize);
-                        editor.getSession().selection.on('change', resize);
+                        window.onscroll = updateCursor;
+                        editor.selection.moveCursorToScreen(0, 0);
                         document.getElementById('editor').style.fontSize='{1}px';
                     ", IsolatedStorageSettings.ApplicationSettings["theme"], IsolatedStorageSettings.ApplicationSettings["fontsize"]));
                     var result = (string)EditorBrowser.InvokeScript("eval", string.Format("editor.setValue(unescape(\"{0}\"));", escapedFileContent).Replace("+", "%20"));
@@ -219,7 +233,8 @@ namespace CoolEditor
                     // toggle to view only
                     _viewOnly = true;
                     System.Threading.Thread.Sleep(1000);
-                    EditorBrowser.InvokeScript("eval", "editor.selection.clearSelection()");
+                    EditorBrowser.InvokeScript("eval", "editor.selection.clearSelection();");
+
                     EditorBrowser.InvokeScript("eval", string.Format("resize()")); // reset the browser control's height
                 }
                 catch (Exception ex)
@@ -338,7 +353,23 @@ namespace CoolEditor
             try
             {
                 var fileContent = (string) EditorBrowser.InvokeScript("eval", "editor.getValue()");
-                await FileIOUtility.WriteDataToFileAsync(_fileName, fileContent);
+                var oldContent = await FileIOUtility.ReadFileContentsAsync(_actualFileName);
+                if (oldContent == fileContent)
+                {
+                    ToastNotification.ShowSimple(AppResources.No_change); 
+                    return;
+                }
+                await FileIOUtility.WriteDataToFileAsync(_actualFileName, fileContent);
+                var localDB = new LocalDatabase();
+                var fileDB = new FileItemDataContext(FileItemDataContext.DBConnectionString);
+                var theFile = (new ObservableCollection<FileItem>(from FileItem file in fileDB.FileItems where file.ActualFileName == _actualFileName select file)).ElementAtOrDefault(0);
+                this.DataContext = this;
+                if (theFile != null)
+                {
+                    theFile.LastModifiedTime = DateTime.UtcNow;
+                    theFile.ModifiedSinceLastSync = true;
+                }
+                fileDB.SubmitChanges();
                 ToastNotification.ShowSimple(AppResources.Save_success);
             }
             catch (Exception ex)
