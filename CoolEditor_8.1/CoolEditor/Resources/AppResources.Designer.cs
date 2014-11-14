@@ -772,6 +772,15 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Smaller Title Size for larger usable area, update ACE Editor..
+        /// </summary>
+        public static string update_20141116 {
+            get {
+                return ResourceManager.GetString("update_20141116", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload to Dropbox.
         /// </summary>
         public static string upload_dropbox {

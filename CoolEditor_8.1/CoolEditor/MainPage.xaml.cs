@@ -775,7 +775,7 @@ namespace CoolEditor
             {
                 var app = Application.Current as App;
                 if (app != null)
-                    app.DropboxClient = new DropNetClient(
+                    (Application.Current as App).DropboxClient = new DropNetClient(
                         app.DropboxApiKey,
                         app.DropboxApiSecret);
             }
@@ -844,18 +844,18 @@ namespace CoolEditor
         {
             // display text
             var setting = IsolatedStorageSettings.ApplicationSettings;
-            if (!setting.Contains("update-20140819"))
+            if (!setting.Contains("update-20141116"))
             {
                 var noticeMessageBox = new CustomMessageBox()
                 {
                     Caption = AppResources.what_new,
-                    Message = AppResources.update_20140819,
+                    Message = AppResources.update_20141116,
                     LeftButtonContent = AppResources.ok
                 };
 
                 noticeMessageBox.Dismissed += (s, e1) =>
                 {
-                    setting.Add("update-20140819", "");
+                    setting.Add("update-20141116", "");
                     setting.Save();
                 };
 

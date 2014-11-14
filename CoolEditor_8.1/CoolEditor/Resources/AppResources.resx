@@ -380,4 +380,7 @@
   <data name="what_new" xml:space="preserve">
     <value>What's New</value>
   </data>
+  <data name="update_20141116" xml:space="preserve">
+    <value>Smaller Title Size for larger usable area, update ACE Editor.</value>
+  </data>
 </root>

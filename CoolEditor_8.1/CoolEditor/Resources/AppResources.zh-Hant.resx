@@ -380,4 +380,7 @@
   <data name="what_new" xml:space="preserve">
     <value>新東西</value>
   </data>
+  <data name="update_20141116" xml:space="preserve">
+    <value>縮小標題大小，升級ACE Editor</value>
+  </data>
 </root>
