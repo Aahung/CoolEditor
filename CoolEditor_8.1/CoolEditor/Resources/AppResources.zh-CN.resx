@@ -353,4 +353,31 @@
   <data name="would_you_like_error_report" xml:space="preserve">
     <value>很抱歉，上次运行的时候好像出了错误，介意让程序自动发封邮件告诉我吗？</value>
   </data>
+  <data name="upload_onedrive" xml:space="preserve">
+    <value>上传至Onedrive</value>
+  </data>
+  <data name="online_file_missing" xml:space="preserve">
+    <value>在线文件丢失</value>
+  </data>
+  <data name="notice_20140819_body" xml:space="preserve">
+    <value>由于 Onedrive 缺少Revision这个属性，所以暂时不提供自动同步的功能。手动同步需要长按文件并选择，抱歉带来不便。</value>
+  </data>
+  <data name="notice_20140819_caption" xml:space="preserve">
+    <value>关于同步按钮</value>
+  </data>
+  <data name="notice_20140819_left" xml:space="preserve">
+    <value>好</value>
+  </data>
+  <data name="notice_20140819_right" xml:space="preserve">
+    <value>不再显示</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>知道了</value>
+  </data>
+  <data name="update_20140819" xml:space="preserve">
+    <value>增加Onedrive支持, 关闭启动时的自动同步, 修复小漏洞</value>
+  </data>
+  <data name="what_new" xml:space="preserve">
+    <value>新东西</value>
+  </data>
 </root>

@@ -14,9 +14,12 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Coding4Fun.Toolkit.Controls;
 using CoolEditor.Class;
+using CoolEditor.Class.DropNetRt;
 using CoolEditor.Class.DropNetRt.Models;
+using Microsoft.Live;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using CoolEditor.Resources;
@@ -24,7 +27,6 @@ using System.IO.IsolatedStorage;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
-using DropNetClient = CoolEditor.Class.DropNetRt.DropNetClient;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace CoolEditor
@@ -78,7 +80,11 @@ namespace CoolEditor
                 Wp80.Visibility = Visibility.Collapsed;
             }
             DropboxButtonBlock.Text = AppResources.Click_to_login;
+            OnedriveButtonBlock.Text = AppResources.Click_to_login;
             DropboxButtonBlock.Visibility = (Authentication.DropboxIsLogin())
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+            OnedriveButtonBlock.Visibility = (Authentication.OnedriveIsLogin())
                 ? Visibility.Collapsed
                 : Visibility.Visible;
         }
@@ -164,7 +170,7 @@ namespace CoolEditor
             //handle back navigation
             FileListSelector.SelectedItem = null;
             ListFiles();
-            SyncWithOnlineFile(null, null); // sync
+            // SyncWithOnlineFile(null, null); // sync
 
             if (e.NavigationMode != NavigationMode.Back)
             {
@@ -191,6 +197,7 @@ namespace CoolEditor
                 }
                 Panorama.DefaultItem = Panorama.Items[1];
             }
+            Update_Log();
 #if DEBUG
             PanoramaItemAbout.Header = "about";//specify when is debugging
 #endif
@@ -345,6 +352,249 @@ namespace CoolEditor
             }
         }
 
+        private async void OverwriteLocal_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimpleProgressIndicator.Set(true);
+            var menuItem = sender as MenuItem;
+            if (menuItem != null)
+            {
+                var file = (FileItem)menuItem.DataContext;
+                if (file.OnlineProvider == "dropbox")
+                {
+                    var theFile = _files.FirstOrDefault(x => x.Id == file.Id);
+                    if (theFile == null)
+                    {
+                        ToastNotification.ShowSimple(AppResources.Fail);
+                        return;
+                    }
+                    Metadata fileMetaData;
+                    try
+                    {
+                        fileMetaData = await (App.Current as App).DropboxClient.GetMetaData(theFile.OnlinePath);
+                    }
+                    catch (Exception)
+                    {
+                        ToastNotification.ShowSimple(AppResources.Fail);
+                        return;
+                    }
+                    byte[] fileBytes;
+                    try
+                    {
+                        fileBytes = await (App.Current as App).DropboxClient.GetFile(theFile.OnlinePath);
+                    }
+                    catch (Exception)
+                    {
+                        ToastNotification.ShowSimple(AppResources.Fail);
+                        return;
+                    }
+                    var content = Encoding.UTF8.GetString(fileBytes, 0, fileBytes.Length);
+                    await FileIOUtility.WriteDataToFileAsync(theFile.ActualFileName, content);
+                    theFile.LastModifiedTime = fileMetaData.UTCDateModified;
+                    theFile.LastSyncTime = DateTime.UtcNow;
+                    theFile.Revision = fileMetaData.Revision;
+                    theFile.ModifiedSinceLastSync = false;
+                }
+                if (file.OnlineProvider == "onedrive")
+                {
+                    await Authentication.OnedriveAuthentication();
+                    var theFile = _files.FirstOrDefault(x => x.Id == file.Id);
+                    if (theFile == null)
+                    {
+                        ToastNotification.ShowSimple(AppResources.Fail);
+                        return;
+                    }
+                    try
+                    {
+                        LiveOperationResult operationResult =
+                        await (App.Current as App).OnedriveClient.GetAsync(theFile.LocalPath);
+                        dynamic result = operationResult.Result;
+                        var downloadPath = theFile.LocalPath + "/content";
+                        LiveDownloadOperation downloadOperation = await
+                            (App.Current as App).OnedriveClient.CreateBackgroundDownloadAsync(downloadPath);
+                        var downloadResult = await downloadOperation.StartAsync();
+                        if (downloadResult != null && downloadResult.Stream != null)
+                        {
+                            var randomAccessStream = await downloadResult.GetRandomAccessStreamAsync();
+                            var resourceStream = (IInputStream)randomAccessStream.GetInputStreamAt(0);
+                            var reader = new DataReader(resourceStream);
+                            await reader.LoadAsync((uint)randomAccessStream.Size);
+                            var content = reader.ReadString((uint)randomAccessStream.Size);
+                            reader.DetachStream();
+                            // overwrite
+                            await FileIOUtility.WriteDataToFileAsync(theFile.ActualFileName, content);
+                            theFile.ModifiedSinceLastSync = false;
+                            theFile.LastModifiedTime = Convert.ToDateTime(result.client_updated_time);
+                            theFile.LastSyncTime = DateTime.UtcNow;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        if (ex.Message.EndsWith("doesn't exist."))
+                        {
+                            theFile.OnlineProvider = "";
+                            ToastNotification.ShowSimple(AppResources.online_file_missing);
+                        }
+                    }
+                }
+                _fileDB.SubmitChanges();
+                ListFiles();
+            }
+            SimpleProgressIndicator.Set(false);
+        }
+
+        private async void OverwriteOnline_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimpleProgressIndicator.Set(true);
+            var menuItem = sender as MenuItem;
+            if (menuItem != null)
+            {
+                var file = (FileItem)menuItem.DataContext;
+                if (file.OnlineProvider == "dropbox")
+                {
+                    var theFile = _files.FirstOrDefault(x => x.Id == file.Id);
+                    if (theFile == null)
+                    {
+                        ToastNotification.ShowSimple(AppResources.Fail);
+                        return;
+                    }
+                    Metadata fileMetaData;
+                    try
+                    {
+                        fileMetaData = await(App.Current as App).DropboxClient.GetMetaData(theFile.OnlinePath);
+                    }
+                    catch (Exception)
+                    {
+                        ToastNotification.ShowSimple(AppResources.Fail);
+                        return;
+                    }
+                    var content = await FileIOUtility.ReadFileContentsAsync(theFile.ActualFileName);
+                    var onlineFolderPath = fileMetaData.Path.TrimEnd(fileMetaData.Name.ToArray());
+                    fileMetaData = await (App.Current as App).DropboxClient.Upload(onlineFolderPath, fileMetaData.Name, Encoding.UTF8.GetBytes(content));
+                    theFile.LastSyncTime = DateTime.UtcNow;
+                    // get revision number
+                    theFile.Revision = fileMetaData.Revision;
+                    theFile.ModifiedSinceLastSync = false;
+                }
+                if (file.OnlineProvider == "onedrive")
+                {
+                    var theFile = _files.FirstOrDefault(x => x.Id == file.Id);
+                    if (theFile == null)
+                    {
+                        ToastNotification.ShowSimple(AppResources.Fail);
+                        return;
+                    }
+                    await Authentication.OnedriveAuthentication();
+                    LiveOperationResult operationResult =
+                        await (App.Current as App).OnedriveClient.GetAsync(theFile.LocalPath);
+                    dynamic result = operationResult.Result;
+                    string parentFolder = result.parent_id;
+                    // get file
+                    IStorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+                    IStorageFile storageFile = await applicationFolder.GetFileAsync(theFile.ActualFileName);
+
+                    // upload
+                    LiveUploadOperation uploadOperation =
+                                    await (App.Current as App).OnedriveClient.CreateBackgroundUploadAsync(
+                                        parentFolder, result.name, storageFile, OverwriteOption.Overwrite);
+                    LiveOperationResult uploadResult = await uploadOperation.StartAsync();
+                    dynamic dyResult = uploadResult.Result;
+                    theFile.LocalPath = dyResult.id;
+                    theFile.LastSyncTime = DateTime.UtcNow;
+                    theFile.ModifiedSinceLastSync = false;
+                }
+                _fileDB.SubmitChanges();
+                ListFiles();
+            }
+            SimpleProgressIndicator.Set(false);
+        }
+
+        private async void SyncWithOnlineFile(object sender, EventArgs e)
+        {
+            // display text
+            var setting = IsolatedStorageSettings.ApplicationSettings;
+            if (!setting.Contains("notice-20140819"))
+            {
+                var noticeMessageBox = new CustomMessageBox()
+                {
+                    Caption = AppResources.notice_20140819_caption,
+                    Message = AppResources.notice_20140819_body,
+                    LeftButtonContent = AppResources.notice_20140819_left,
+                    RightButtonContent = AppResources.notice_20140819_right
+                };
+
+                noticeMessageBox.Dismissed += (s, e1) =>
+                {
+                    if (e1.Result == CustomMessageBoxResult.RightButton)
+                    {
+                        setting.Add("notice-20140819", "");
+                        setting.Save();
+                    }
+                };
+
+                noticeMessageBox.Show();
+            }
+            // sync
+            if (!Authentication.DropboxIsLogin())
+            {
+                return;
+            }
+            SimpleProgressIndicator.Set(true);
+            var theFiles = _files.Where(x => x.OnlineProvider == "dropbox" || false);
+            if (!theFiles.Any())
+            {
+                SimpleProgressIndicator.Set(false);
+                return;
+            }
+            foreach (var theFile in theFiles)
+            {
+                Metadata fileMetaData;
+                try
+                {
+                    fileMetaData = await (App.Current as App).DropboxClient.GetMetaData(theFile.OnlinePath);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+                // deal with sync
+                if (fileMetaData.Revision > theFile.Revision && fileMetaData.UTCDateModified > theFile.LastModifiedTime &&
+                    fileMetaData.UTCDateModified > theFile.LastSyncTime)
+                {
+                    // download
+                    byte[] fileBytes;
+                    try
+                    {
+                        fileBytes = await (App.Current as App).DropboxClient.GetFile(theFile.OnlinePath);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                    var content = Encoding.UTF8.GetString(fileBytes, 0, fileBytes.Length);
+                    await FileIOUtility.WriteDataToFileAsync(theFile.ActualFileName, content);
+                    theFile.LastModifiedTime = fileMetaData.UTCDateModified;
+                    theFile.LastSyncTime = DateTime.UtcNow;
+                    theFile.Revision = fileMetaData.Revision;
+                    theFile.ModifiedSinceLastSync = false;
+                }
+                else if (fileMetaData.Revision == theFile.Revision && theFile.ModifiedSinceLastSync)
+                {
+                    // upload
+                    var content = await FileIOUtility.ReadFileContentsAsync(theFile.ActualFileName);
+                    var onlineFolderPath = fileMetaData.Path.TrimEnd(fileMetaData.Name.ToArray());
+                    fileMetaData = await (App.Current as App).DropboxClient.Upload(onlineFolderPath, fileMetaData.Name, Encoding.UTF8.GetBytes(content));
+                    theFile.LastSyncTime = DateTime.UtcNow;
+                    // get revision number
+                    theFile.Revision = fileMetaData.Revision;
+                    theFile.ModifiedSinceLastSync = false;
+                }
+                _fileDB.SubmitChanges();
+            }
+            ListFiles();
+            SimpleProgressIndicator.Set(false);
+        }
+
         private void FileListSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (FileListSelector.SelectedItem == null)
@@ -383,68 +633,7 @@ namespace CoolEditor
             }
         }
 
-        private async void SyncWithOnlineFile(object sender, EventArgs e)
-        {
-            // sync
-            if (!Authentication.DropboxIsLogin())
-            {
-                return;
-            }
-            SimpleProgressIndicator.Set(true);
-            var theFiles = _files.Where(x => x.OnlineProvider == "dropbox" || false);
-            if (!theFiles.Any())
-            {
-                SimpleProgressIndicator.Set(false);
-                return;
-            }
-            foreach (var theFile in theFiles)
-            {
-                Metadata fileMetaData;
-                try
-                {
-                    fileMetaData = await (App.Current as App).DropboxClient.GetMetaData(theFile.OnlinePath);
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
-                // deal with sync
-                if (fileMetaData.Revision > theFile.Revision && fileMetaData.UTCDateModified > theFile.LastModifiedTime && 
-                    fileMetaData.UTCDateModified > theFile.LastSyncTime)
-                {
-                    // download
-                    byte[] fileBytes;
-                    try
-                    {
-                        fileBytes = await (App.Current as App).DropboxClient.GetFile(theFile.OnlinePath);
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
-                    var content = Encoding.UTF8.GetString(fileBytes, 0, fileBytes.Length);
-                    await FileIOUtility.WriteDataToFileAsync(theFile.ActualFileName, content);
-                    theFile.LastModifiedTime = fileMetaData.UTCDateModified;
-                    theFile.LastSyncTime = DateTime.UtcNow;
-                    theFile.Revision = fileMetaData.Revision;
-                    theFile.ModifiedSinceLastSync = false;
-                }
-                else if (fileMetaData.Revision == theFile.Revision && theFile.ModifiedSinceLastSync)
-                {
-                    // upload
-                    var content = await FileIOUtility.ReadFileContentsAsync(theFile.ActualFileName);
-                    var onlineFolderPath = fileMetaData.Path.TrimEnd(fileMetaData.Name.ToArray());
-                    fileMetaData = await(App.Current as App).DropboxClient.Upload(onlineFolderPath, fileMetaData.Name, Encoding.UTF8.GetBytes(content));
-                    theFile.LastSyncTime = DateTime.UtcNow;
-                    // get revision number
-                    theFile.Revision = fileMetaData.Revision;
-                    theFile.ModifiedSinceLastSync = false;
-                }
-                _fileDB.SubmitChanges();
-            }
-            ListFiles();
-            SimpleProgressIndicator.Set(false);
-        }
+        
 
         private async void ApplicationBarIconButton1_OnClick(object sender, EventArgs e)
         {
@@ -573,7 +762,7 @@ namespace CoolEditor
         {
             if (Authentication.DropboxIsLogin())
             {
-                NavigationService.Navigate(new Uri("/OnlineFileSelect.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/OnlineFileSelect.xaml?e=dropbox", UriKind.Relative));
                 return;
             }
             DropboxAuthentication();
@@ -582,10 +771,20 @@ namespace CoolEditor
         public async void DropboxAuthentication()
         {
             SimpleProgressIndicator.Set(true);
-            (App.Current as App).DropboxClient = new DropNetClient(
-                (App.Current as App).DropboxApiKey,
-                (App.Current as App).DropboxApiSecret);
-            var requestToken = await(App.Current as App).DropboxClient.GetRequestToken();
+            try
+            {
+                var app = Application.Current as App;
+                if (app != null)
+                    app.DropboxClient = new DropNetClient(
+                        app.DropboxApiKey,
+                        app.DropboxApiSecret);
+            }
+            catch (Exception ex)
+            {
+                var x = ex.InnerException;
+                Console.WriteLine(ex.Message);
+            }
+            var requestToken = await (App.Current as App).DropboxClient.GetRequestToken();
             var url = (App.Current as App).DropboxClient.BuildAuthorizeUrl(requestToken, "https://www.google.com/robots.txt");
             AuthGrid.Visibility = Visibility.Visible;
             AuthBrowser.Navigate(new Uri(url));
@@ -596,15 +795,7 @@ namespace CoolEditor
                 {
                     var accessToken = await (App.Current as App).DropboxClient.GetAccessToken();
                     // save to setting
-                    var setting = IsolatedStorageSettings.ApplicationSettings;
-                    if (!setting.Contains("dropbox-key"))
-                    {
-                        setting.Add("dropbox-key", "");
-                        setting.Add("dropbox-secret", "");
-                    }
-                    setting["dropbox-key"] = accessToken.Token;
-                    setting["dropbox-secret"] = accessToken.Secret;
-                    setting.Save();
+                    Authentication.SetDropboxInfo(accessToken.Token, accessToken.Secret);
                     // end save
                     AuthGrid.Visibility = Visibility.Collapsed;
                     // success message
@@ -624,5 +815,54 @@ namespace CoolEditor
                 ? Visibility.Collapsed
                 : Visibility.Visible;
         }
+
+        private void OnedriveLogOff(object s, EventArgs e)
+        {
+            Authentication.DropboxLogOff();
+            DropboxButtonBlock.Visibility = (Authentication.DropboxIsLogin())
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+        }
+
+        private async void Onedrive_OnTap(object sender, GestureEventArgs e)
+        {
+            SimpleProgressIndicator.Set(true);
+            var success = await Authentication.OnedriveAuthentication();
+            if (success)
+            {
+                SimpleProgressIndicator.Set(false);
+                NavigationService.Navigate(new Uri("/OnlineFileSelect.xaml?e=onedrive", UriKind.Relative));
+            }
+            else
+            {
+                SimpleProgressIndicator.Set(false);
+                ToastNotification.ShowSimple(AppResources.Fail);
+            }
+        }
+
+        private void Update_Log()
+        {
+            // display text
+            var setting = IsolatedStorageSettings.ApplicationSettings;
+            if (!setting.Contains("update-20140819"))
+            {
+                var noticeMessageBox = new CustomMessageBox()
+                {
+                    Caption = AppResources.what_new,
+                    Message = AppResources.update_20140819,
+                    LeftButtonContent = AppResources.ok
+                };
+
+                noticeMessageBox.Dismissed += (s, e1) =>
+                {
+                    setting.Add("update-20140819", "");
+                    setting.Save();
+                };
+
+                noticeMessageBox.Show();
+            }
+        }
+
+
     }
 }

@@ -14,6 +14,11 @@
     shell:SystemTray.IsVisible="True">
 
     <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="SmallPanoramaTitle">
+            <ContentPresenter>
+                <TextBlock Text="{Binding}" FontSize="50" Margin="0,40,0,0" FontFamily="Courier New" />
+            </ContentPresenter>
+        </DataTemplate>
         <DataTemplate x:Key="FileItemTemplate">
         	<StackPanel VerticalAlignment="Top" Margin="0,0,0,10" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
         		<toolkit:ContextMenuService.ContextMenu>
@@ -30,13 +35,24 @@
         					x:Name="Delete"  
         					Header="{Binding LocalizedResources.Delete, Source={StaticResource LocalizedStrings}}" 
         					Click="MenuItem2_OnClick" />
-        			</toolkit:ContextMenu>
+                        <toolkit:MenuItem 
+                            Visibility="{Binding HasOnlineProvider}"
+        					x:Name="OverwriteOnline"  
+        					Header="Upload and overwrite" 
+        					Click="OverwriteOnline_OnClick" />
+                        <toolkit:MenuItem 
+                            Visibility="{Binding HasOnlineProvider}"
+        					x:Name="OverwriteLocal"  
+        					Header="Download and overwrite" 
+        					Click="OverwriteLocal_OnClick" />
+                    </toolkit:ContextMenu>
         		</toolkit:ContextMenuService.ContextMenu>
         		<TextBlock FontSize="30" x:Name="FileName" TextWrapping="NoWrap"  
         			Margin="12,0,0,0" HorizontalAlignment="Left" Foreground="{StaticResource PhoneForegroundBrush}"  
         			Text="{Binding FileName, Mode=TwoWay}" />
                 <StackPanel Margin="12,0,0,-5" Visibility="{Binding HasOnlineProvider}" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
-                    <Image Source="/Assets/images/dropbox-logos_dropbox-glyph-blue.png" Width="32"></Image>
+                    <Image Visibility="{Binding IsDropbox}" Source="/Assets/images/dropbox-logos_dropbox-glyph-blue.png" Width="32"></Image>
+                    <Image Visibility="{Binding IsOnedrive}" Source="/Assets/images/onedrive-glyph-blue.png" Width="32"></Image>
                     <TextBlock FontSize="20" Foreground="{StaticResource PhoneSubtleBrush}" Margin="0,0,0,0"
         			Text="{Binding OnlinePath, Mode=TwoWay}"/>
                 </StackPanel>
@@ -133,7 +149,7 @@
 		<!--TitlePanel contains the name of the application and page title-->
 
 		<!--ContentPanel - place additional content here-->
-		<phone:Panorama Name="Panorama" Title="{Binding LocalizedResources.AppName, Source={StaticResource LocalizedStrings}}" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
+		<phone:Panorama TitleTemplate="{StaticResource SmallPanoramaTitle}" Name="Panorama" Title="{Binding LocalizedResources.AppName, Source={StaticResource LocalizedStrings} }" UseLayoutRounding="True" Margin="0" Grid.RowSpan="2">
 			<phone:PanoramaItem x:Name="PanoramaItemAbout" CacheMode="{x:Null}" Header="{Binding LocalizedResources.About, Source={StaticResource LocalizedStrings}}">
 				<phone:PanoramaItem.RenderTransform>
 					<TranslateTransform/>
@@ -225,15 +241,30 @@
 				<Grid>
 					<ScrollViewer>
                         <StackPanel>
-                            <toolkit:ContextMenuService.ContextMenu>
-                                <toolkit:ContextMenu>
-                                    <toolkit:MenuItem Tap="DropboxLogOff" Header="{Binding LocalizedResources.Log_off, Source={StaticResource LocalizedStrings}}"></toolkit:MenuItem>
-                                </toolkit:ContextMenu>
-                            </toolkit:ContextMenuService.ContextMenu>
-                            <TextBlock Name="DropboxButtonBlock" TextAlignment="Right" Margin="0 0 20 -60"  Padding="0 20 ">Click to log in</TextBlock>
-                            <Controls:ImageTile HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="{x:Null}" Tap="Dropbox_OnTap">
-								<Image Source="/Assets/images/dropbox-logos_dropbox-logotype-blue.png" Stretch="Fill" HorizontalAlignment="Center"/>
-							</Controls:ImageTile>
+                            <StackPanel>
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu>
+                                        <toolkit:MenuItem Tap="DropboxLogOff" Header="{Binding LocalizedResources.Log_off, Source={StaticResource LocalizedStrings}}"></toolkit:MenuItem>
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
+                                <TextBlock Name="DropboxButtonBlock" TextAlignment="Right" Margin="0 0 20 -60"  Padding="0 20 ">Click to log in</TextBlock>
+                                <Controls:ImageTile HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="{x:Null}" Tap="Dropbox_OnTap">
+								    <Image Source="/Assets/images/dropbox-logos_dropbox-logotype-blue.png" Stretch="Fill" HorizontalAlignment="Center"/>
+							    </Controls:ImageTile>
+                            </StackPanel>
+                            <StackPanel>
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu>
+                                        <toolkit:MenuItem Tap="OnedriveLogOff" Header="{Binding LocalizedResources.Log_off, Source={StaticResource LocalizedStrings}}"></toolkit:MenuItem>
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
+                                <TextBlock x:Name="OnedriveButtonBlock" TextAlignment="Right" Margin="0,0,20,-30"  Padding="0 20 ">
+                            	    <Run Text="Click to log in"/>
+                                </TextBlock>
+                                <Controls:ImageTile HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Top" Width="Auto" Height="Auto" Background="{x:Null}" Tap="Onedrive_OnTap">
+                                    <Image Source="/Assets/images/OneDrive_logo.png"/>
+                                </Controls:ImageTile>
+                            </StackPanel>
                             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Opacity="0.4">
                             	<Run FontSize="32" Text="+FTP account "/>
                             	<Run/>

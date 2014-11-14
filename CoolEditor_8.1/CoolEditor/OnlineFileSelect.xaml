@@ -46,7 +46,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,10">
-            <TextBlock Text="Dropbox" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Name="ProviderTextBlock" Text="Dropbox" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->

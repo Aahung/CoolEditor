@@ -131,7 +131,17 @@ namespace CoolEditor.Class
 
         public string HasOnlineProvider
         {
-            get { return (_onlineProvider == "dropbox" || false) ? "Visible" : "Collapsed"; }
+            get { return (_onlineProvider == "dropbox" || _onlineProvider == "onedrive") ? "Visible" : "Collapsed"; }
+        }
+
+        public string IsDropbox
+        {
+            get { return (_onlineProvider == "dropbox") ? "Visible" : "Collapsed"; }
+        }
+
+        public string IsOnedrive
+        {
+            get { return (_onlineProvider == "onedrive") ? "Visible" : "Collapsed"; }
         }
 
         private string _onlinePath;

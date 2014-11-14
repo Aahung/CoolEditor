@@ -353,4 +353,31 @@
   <data name="would_you_like_error_report" xml:space="preserve">
     <value>Sorry, a problem occurred the last time you ran Cool Editor. Would you like to let Cool Editor send an email to report it? :-)</value>
   </data>
+  <data name="upload_onedrive" xml:space="preserve">
+    <value>Upload to Onedrive</value>
+  </data>
+  <data name="online_file_missing" xml:space="preserve">
+    <value>The online file is missing</value>
+  </data>
+  <data name="notice_20140819_body" xml:space="preserve">
+    <value>For Onedrive does not contain "revision" property, Cool Editor does not provide auto sync function. You need to manually sync file from Onedrive by long pressing the file item and choosing "Upload and ..." or "Download and ...". Sorry for inconvenience.</value>
+  </data>
+  <data name="notice_20140819_caption" xml:space="preserve">
+    <value>Notice about sync button</value>
+  </data>
+  <data name="notice_20140819_left" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="notice_20140819_right" xml:space="preserve">
+    <value>Mark read</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="update_20140819" xml:space="preserve">
+    <value>Onedrive support added, disable sync when launch the app, some small bugs</value>
+  </data>
+  <data name="what_new" xml:space="preserve">
+    <value>What's New</value>
+  </data>
 </root>

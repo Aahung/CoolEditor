@@ -1,2 +1,5 @@
 /Bin/
 *.db
+/ApiKeys.Designer.cs
+/ApiKeys.resx
+/obj/

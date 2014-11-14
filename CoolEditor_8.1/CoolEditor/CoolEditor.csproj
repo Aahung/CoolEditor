@@ -27,6 +27,7 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <TargetFrameworkProfile />
     <DefaultLanguage>en-US</DefaultLanguage>
+    <ExpressionBlendVersion>12.0.50429.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,6 +128,11 @@
     <Compile Include="Class\ShareBox.cs" />
     <Compile Include="Class\SimpleProgressIndicator.cs" />
     <Compile Include="Class\ToastNotification.cs" />
+    <Compile Include="ApiKeys.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApiKeys.resx</DependentUpon>
+    </Compile>
     <Compile Include="Editor.xaml.cs">
       <DependentUpon>Editor.xaml</DependentUpon>
     </Compile>
@@ -183,13 +189,16 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\AppManifest.xml">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Resource Include="OneDrive_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -478,6 +487,8 @@
     <Content Include="Assets\Coding4Fun.Toolkit.Controls.dll" />
     <Content Include="Assets\images\dropbox-logos_dropbox-glyph-blue.png" />
     <Content Include="Assets\images\dropbox-logos_dropbox-logotype-blue.png" />
+    <Content Include="Assets\images\onedrive-glyph-blue.png" />
+    <Content Include="Assets\images\OneDrive_logo.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\no_file.png" />
     <Content Include="Html\jquery.js" />
@@ -1058,7 +1069,6 @@
     <Content Include="Html\src-min-noconflict\theme-github.js" />
     <Content Include="Html\src-min-noconflict\theme-idle_fingers.js" />
     <Content Include="Html\src-min-noconflict\theme-katzenmilch.js" />
-    <Content Include="Html\src-min-noconflict\theme-kr.js" />
     <Content Include="Html\src-min-noconflict\theme-kuroir.js" />
     <Content Include="Html\src-min-noconflict\theme-merbivore.js" />
     <Content Include="Html\src-min-noconflict\theme-merbivore_soft.js" />
@@ -1090,6 +1100,10 @@
     <Content Include="SplashScreenImage.screen-WXGA.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ApiKeys.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApiKeys.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
@@ -1125,21 +1139,25 @@
     </Reference>
     <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Extensions, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Primitives, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="LiveSDK_RTSL, Version=5.6">
+      <Name>Live SDK</Name>
+    </SDKReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

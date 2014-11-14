@@ -475,6 +475,60 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to For Onedrive does not contain &quot;revision&quot; property, Cool Editor does not provide auto sync function. You need to manually sync file from Onedrive by long pressing the file item and choosing &quot;Upload and ...&quot; or &quot;Download and ...&quot;. Sorry for inconvenience..
+        /// </summary>
+        public static string notice_20140819_body {
+            get {
+                return ResourceManager.GetString("notice_20140819_body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notice about sync button.
+        /// </summary>
+        public static string notice_20140819_caption {
+            get {
+                return ResourceManager.GetString("notice_20140819_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string notice_20140819_left {
+            get {
+                return ResourceManager.GetString("notice_20140819_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark read.
+        /// </summary>
+        public static string notice_20140819_right {
+            get {
+                return ResourceManager.GetString("notice_20140819_right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string ok {
+            get {
+                return ResourceManager.GetString("ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The online file is missing.
+        /// </summary>
+        public static string online_file_missing {
+            get {
+                return ResourceManager.GetString("online_file_missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         public static string Options {
@@ -709,11 +763,29 @@ namespace CoolEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Onedrive support added, disable sync when launch the app, some small bugs.
+        /// </summary>
+        public static string update_20140819 {
+            get {
+                return ResourceManager.GetString("update_20140819", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload to Dropbox.
         /// </summary>
         public static string upload_dropbox {
             get {
                 return ResourceManager.GetString("upload_dropbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload to Onedrive.
+        /// </summary>
+        public static string upload_onedrive {
+            get {
+                return ResourceManager.GetString("upload_onedrive", resourceCulture);
             }
         }
         
@@ -732,6 +804,15 @@ namespace CoolEditor.Resources {
         public static string Warning {
             get {
                 return ResourceManager.GetString("Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What&apos;s New.
+        /// </summary>
+        public static string what_new {
+            get {
+                return ResourceManager.GetString("what_new", resourceCulture);
             }
         }
         
