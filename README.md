@@ -9,4 +9,5 @@ Code is a mess and it needs tidy...
 
 
 ==========
-I will remove the difference between paid version and trial version soon: the promption when launching the app.
+
+The development will be re-launched soon. 
